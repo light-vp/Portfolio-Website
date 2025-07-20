@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume - Portfolio</title>
+    <meta name="description" content="View my professional resume and career timeline">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #141414;
+            --bg-tertiary: #1a1a1a;
+            --border-color: #262626;
+            --text-primary: #ffffff;
+            --text-secondary: #a3a3a3;
+            --text-muted: #737373;
+            --primary: #3b82f6;
+            --primary-hover: #60a5fa;
+            --accent: #10b981;
+            --gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            --gradient-text: linear-gradient(to right, #3b82f6, #8b5cf6, #10b981);
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation (Same as other pages) */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(10, 10, 10, 0.95);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--text-primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding-top: 80px;
+            min-height: 100vh;
+        }
+
+        /* Resume Header */
+        .resume-header {
+            padding: 4rem 2rem 2rem;
+            max-width: 1280px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .resume-title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .resume-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 2rem;
+            background: var(--gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Timeline Controls */
+        .timeline-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            padding: 0 2rem;
+            flex-wrap: wrap;
+        }
+
+        .timeline-tab {
+            padding: 0.5rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .timeline-tab.active {
+            background: var(--gradient);
+            color: white;
+            border-color: transparent;
+        }
+
+        .timeline-tab:hover:not(.active) {
+            border-color: var(--primary);
+            color: var(--text-primary);
+        }
+
+        /* Interactive Timeline */
+        .timeline-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-color);
+            transform: translateX(-50%);
+        }
+
+        .timeline-progress {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 2px;
+            background: var(--gradient);
+            transform: translateX(-50%);
+            height: 0;
+            transition: height 0.5s ease;
+        }
+
+        .timeline-entry {
+            position: relative;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .timeline-entry:nth-child(odd) {
+            padding-right: 50%;
+            padding-left: 0;
+        }
+
+        .timeline-entry:nth-child(even) {
+            padding-left: 50%;
+            padding-right: 0;
+        }
+
+        .timeline-entry:nth-child(odd) .timeline-card {
+            margin-right: 3rem;
+        }
+
+        .timeline-entry:nth-child(even) .timeline-card {
+            margin-left: 3rem;
+        }
+
+        .timeline-node {
+            position: absolute;
+            left: 50%;
+            top: 30px;
+            width: 20px;
+            height: 20px;
+            background: var(--bg-primary);
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-entry:hover .timeline-node {
+            background: var(--primary);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+
+        .timeline-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .timeline-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .timeline-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+        }
+
+        .timeline-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .timeline-date {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--bg-tertiary);
+            border-radius: 20px;
+            font-size: 0.875rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .timeline-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .timeline-description {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-skills {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .skill-tag {
+            padding: 0.25rem 0.75rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Achievement Badges */
+        .achievement-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .achievement-icon {
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .timeline-line,
+            .timeline-progress {
+                left: 30px;
+            }
+
+            .timeline-entry {
+                padding-left: 60px !important;
+                padding-right: 0 !important;
+            }
+
+            .timeline-entry .timeline-card {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+            }
+
+            .timeline-node {
+                left: 30px;
+            }
+
+            .timeline-controls {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 1rem;
+            }
+        }
+
+        /* Menu Toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 2px;
+            background: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+        }
+
+        /* Hidden by default */
+        .timeline-entry.hidden {
+            display: none;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+
+        footer p {
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">Portfolio</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="resume.html" class="active">Resume</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Resume Header -->
+        <section class="resume-header">
+            <h1 class="resume-title">[Your Name]</h1>
+            <p class="resume-subtitle">Full Stack Developer | Tech Enthusiast | Problem Solver</p>
+            <a href="#" class="download-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Download Resume PDF
+            </a>
+        </section>
+
+        <!-- Timeline Controls -->
+        <div class="timeline-controls">
+            <button class="timeline-tab active" data-filter="all">All</button>
+            <button class="timeline-tab" data-filter="work">Work Experience</button>
+            <button class="timeline-tab" data-filter="education">Education</button>
+            <button class="timeline-tab" data-filter="certification">Certifications</button>
+            <button class="timeline-tab" data-filter="achievement">Achievements</button>
+        </div>
+
+        <!-- Interactive Timeline -->
+        <section class="timeline-container">
+            <div class="timeline">
+                <div class="timeline-line"></div>
+                <div class="timeline-progress" id="timelineProgress"></div>
+
+                <!-- Work Experience 1 -->
+                <div class="timeline-entry" data-category="work">
+                    <div class="timeline-node"></div>
+                    <div class="timeline-card">
+                        <span class="timeline-date">Jan 2023 - Present</span>
+                        <h3 class="timeline-title">Senior Full Stack Developer</h3>
+                        <p class="timeline-subtitle">Tech Innovations Inc.</p>
+                        <p class="timeline-description">
+                            Leading the development of enterprise-level applications using cutting-edge technologies. 
+                            Responsible for system architecture decisions, code reviews, and mentoring a team of 5 developers.
+                        </p>
+                        <ul class="timeline-description">
+                            <li>Architected microservices infrastructure reducing system latency by 40%</li>
+                            <li>Implemented CI/CD pipelines improving deployment efficiency by 60%</li>
+                            <li>Led migration from monolithic to microservices architecture</li>
+                        </ul>
+                        <div class="timeline-skills">
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">Node.js</span>
+                            <span class="skill-tag">AWS</span>
+                            <span class="skill-tag">Docker</span>
+                            <span class="skill-tag">MongoDB</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Education 1 -->
+                <div class="timeline-entry" data-category="education">
+                    <div class="timeline-node"></div>
+                    <div class="timeline-card">
+                        <span class="timeline-date">2019 - 2023</span>
+                        <h3 class="timeline-title">Bachelor of Computer Science</h3>
+                        <p class="timeline-subtitle">University of Technology</p>
+                        <p class="timeline-description">
+                            Graduated with honors (GPA: 3.8/4.0). Focused on software engineering, 
+                            algorithms, and artificial intelligence. Active member of the coding club 
+                            and hackathon team.
+                        </p>
+                        <div class="achievement-badge">
+                            <span class="achievement-icon">🏆</span>
+                            <span>Dean's List - All Semesters</span>
+                        </div>
+                        <div class="timeline-skills">
+                            <span class="skill-tag">Data Structures</span>
+                            <span class="skill-tag">Algorithms</span>
+                            <span class="skill-tag">Machine Learning</span>
+                            <span class="skill-tag">Web Development</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Work Experience 2 -->
+                <div class="timeline-entry" data-category="work">
+                    <div class="timeline-node"></div>
+                    <div class="timeline-card">
+                        <span class="timeline-date">Jun 2021 - Dec 2022</span>
+                        <h3 class="timeline-title">Full Stack Developer</h3>
+                        <p class="timeline-subtitle">Digital Solutions Ltd.</p>
+                        <p class="timeline-description">
+                            Developed and maintained multiple client projects ranging from e-commerce 
+                            platforms to enterprise management systems.
+                        </p>
+                        <ul class="timeline-description">
+                            <li>Built RESTful APIs serving 100K+ daily active users</li>
+                            <li>Optimized database queries reducing load time by 50%</li>
+                            <li>Collaborated with cross-functional teams in Agile environment</li>
+                        </ul>
+                        <div class="timeline-skills">
+                            <span class="skill-tag">Vue.js</span>
+                            <span class="skill-tag">Express.js</span>
+                            <span class="skill-tag">PostgreSQL</span>
+                            <span class="skill-tag">Redis</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certification 1 -->
+                <div class="timeline-entry" data-category="certification">
+                    <div class="timeline-node"></div>
+                    <div class="timeline-card">
+                        <span class="timeline-date">Aug 2022</span>
+                        <h3 class="timeline-title">AWS Certified Solutions Architect</h3>
+                        <p class="timeline-subtitle">Amazon Web Services</p>
+                        <p class="timeline-description">
+                            Earned certification demonstrating expertise in designing distributed 
+                            systems on AWS platform.
+                        </p>
+                        <div class="achievement-badge">
+                            <span class="achievement-icon">✓</span>
+                            <span>Score: 920/1000</span>
+                        </div>
+                        <div class="timeline-skills">
+                            <span class="skill-tag">Cloud Architecture</span>
+                            <span class="skill-tag">Security</span>
+                            <span class="skill-tag">Scalability</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Achievement 1 -->
+                <div class="timeline-entry" data-category="achievement">
+                    <div class="timeline-node"></div>
+                    <div class="timeline-card">
+                        <span class="timeline-date">Nov 2021</span>
+                        <h3 class="timeline-title">1st Place - National Hackathon</h3>
+                        <p class="timeline-subtitle">TechHack 2021</p>
+                        <p class="timeline-description">
+                            Led a team of 4 to victory in a 48-hour hackathon. Developed an AI-powered 
+                            healthcare solution that helps predict patient readmission rates.
+                        </p>
+                        <div class="achievement-badge">
+                            <span class="achievement-icon">🥇</span>
+                            <span>$10,000 Prize</span>
+                        </div>
+                        <div class="timeline-skills">
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">TensorFlow</span>
+                            <span class="skill-tag">React Native</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Work Experience 3 -->
+                <div class="timeline-entry" data-category="work">
+                    <div class="timeline-node"></div>
+                    <div class="timeline-card">
+                        <span class="timeline-date">Jan 2020 - May 2021</span>
+                        <h3 class="timeline-title">Frontend Developer</h3>
+                        <p class="timeline-subtitle">Creative Web Agency</p>
+                        <p class="timeline-description">
+                            Specialized in creating responsive, user-friendly interfaces for various 
+                            clients including startups and established businesses.
+                        </p>
+                        <ul class="timeline-description">
+                            <li>Developed 20+ responsive websites with 99% client satisfaction</li>
+                            <li>Implemented modern UI/UX practices improving user engagement by 35%</li>
+                            <li>Collaborated closely with designers to ensure pixel-perfect implementations</li>
+                        </ul>
+                        <div class="timeline-skills">
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">Sass</span>
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">Figma</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certification 2 -->
+                <div class="timeline-entry" data-category="certification">
+                    <div class="timeline-node"></div>
+                    <div class="timeline-card">
+                        <span class="timeline-date">Mar 2020</span>
+                        <h3 class="timeline-title">Google Mobile Web Specialist</h3>
+                        <p class="timeline-subtitle">Google Developers</p>
+                        <p class="timeline-description">
+                            Certification validating skills in building and optimizing mobile web applications.
+                        </p>
+                        <div class="timeline-skills">
+                            <span class="skill-tag">PWA</span>
+                            <span class="skill-tag">Performance</span>
+                            <span class="skill-tag">Accessibility</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Education 2 -->
+                <div class="timeline-entry" data-category="education">
+                    <div class="timeline-node"></div>
+                    <div class="timeline-card">
+                        <span class="timeline-date">2019</span>
+                        <h3 class="timeline-title">Full Stack Web Development Bootcamp</h3>
+                        <p class="timeline-subtitle">Code Academy</p>
+                        <p class="timeline-description">
+                            Intensive 6-month bootcamp covering modern web development technologies 
+                            and best practices. Completed 10+ full-stack projects.
+                        </p>
+                        <div class="timeline-skills">
+                            <span class="skill-tag">MERN Stack</span>
+                            <span class="skill-tag">Git</span>
+                            <span class="skill-tag">Agile</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 [Your Name]. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.pageYOffset > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Timeline Filter Functionality
+        const tabs = document.querySelectorAll('.timeline-tab');
+        const entries = document.querySelectorAll('.timeline-entry');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                tabs.forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tab
+                tab.classList.add('active');
+
+                const filter = tab.getAttribute('data-filter');
+
+                // Filter timeline entries
+                entries.forEach(entry => {
+                    if (filter === 'all' || entry.getAttribute('data-category') === filter) {
+                        entry.classList.remove('hidden');
+                        entry.style.animation = 'fadeInUp 0.6s ease forwards';
+                    } else {
+                        entry.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        // Timeline Progress Animation
+        function updateTimelineProgress() {
+            const timeline = document.querySelector('.timeline');
+            const progress = document.getElementById('timelineProgress');
+            const scrollPosition = window.scrollY;
+            const timelineTop = timeline.offsetTop;
+            const timelineHeight = timeline.offsetHeight;
+            const windowHeight = window.innerHeight;
+
+            if (scrollPosition + windowHeight > timelineTop) {
+                const scrolled = scrollPosition + windowHeight - timelineTop;
+                const progressHeight = Math.min((scrolled / timelineHeight) * 100, 100);
+                progress.style.height = progressHeight + '%';
+            }
+        }
+
+        window.addEventListener('scroll', updateTimelineProgress);
+        window.addEventListener('load', updateTimelineProgress);
+
+        // Mobile Menu Toggle
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            this.classList.toggle('active');
+            // Add mobile menu logic here
+        });
+
+        // Download Resume (placeholder)
+        document.querySelector('.download-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Resume download functionality would be implemented here. You can add a link to your actual PDF resume.');
+        });
+    </script>
+</body>
+</html>
