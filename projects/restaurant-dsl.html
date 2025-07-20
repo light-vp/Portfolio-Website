@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Menu DSL - Domain-Specific Language</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --border-light: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
+            --gradient-primary: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .panel {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-light);
+            background: var(--bg-tertiary);
+        }
+
+        .panel-header h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .panel-content {
+            padding: 1.5rem;
+            height: 500px;
+            overflow-y: auto;
+        }
+
+        .code-editor {
+            background: #0f172a;
+            color: #e2e8f0;
+            border: none;
+            width: 100%;
+            height: 100%;
+            padding: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            resize: none;
+            border-radius: 8px;
+            line-height: 1.5;
+        }
+
+        .code-editor:focus {
+            outline: 2px solid var(--primary);
+        }
+
+        .output-content {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            white-space: pre-wrap;
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 8px;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            margin: 1rem 0;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .validation-results {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .validation-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 6px;
+        }
+
+        .validation-item.success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .validation-item.warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .validation-item.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+        }
+
+        .format-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .format-tab {
+            padding: 0.5rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        .format-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .tech-stack {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-md);
+            margin-top: 2rem;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .tech-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+        }
+
+        .tech-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 1024px) {
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .panel-content {
+                height: 300px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Restaurant Menu DSL</h1>
+            <p>Domain-Specific Language for creating consistent, validated menus across multiple platforms using Xtext and Xtend</p>
+        </div>
+
+        <div class="demo-grid">
+            <!-- DSL Input Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>
+                        <span>📝</span>
+                        DSL Input
+                    </h3>
+                </div>
+                <div class="panel-content">
+                    <textarea class="code-editor" id="dslInput" placeholder="Write your menu DSL code here...">
+Restaurant "The Modern Bistro" {
+    address: "123 Main Street, London"
+    phone: "+44 20 1234 5678"
+    cuisine: Italian
+    
+    Category "Starters" {
+        Item "Bruschetta" {
+            price: 8.50
+            description: "Toasted bread with tomatoes, garlic, and basil"
+            allergens: [Gluten]
+            dietary: [Vegetarian]
+            prepTime: 10
+        }
+        
+        Item "Caesar Salad" {
+            price: 12.00
+            description: "Crisp romaine lettuce with parmesan and croutons"
+            allergens: [Gluten, Dairy, Eggs]
+            dietary: [Vegetarian]
+            prepTime: 8
+        }
+    }
+    
+    Category "Main Courses" {
+        Item "Margherita Pizza" {
+            price: 16.50
+            description: "Classic pizza with tomato, mozzarella, and basil"
+            allergens: [Gluten, Dairy]
+            dietary: [Vegetarian]
+            prepTime: 15
+            spiceLevel: 0
+        }
+        
+        Item "Grilled Salmon" {
+            price: 24.00
+            description: "Fresh Atlantic salmon with lemon and herbs"
+            allergens: [Fish]
+            dietary: [GlutenFree]
+            prepTime: 20
+            spiceLevel: 1
+        }
+    }
+    
+    Category "Desserts" {
+        Item "Tiramisu" {
+            price: 9.50
+            description: "Classic Italian dessert with coffee and mascarpone"
+            allergens: [Dairy, Eggs, Gluten]
+            dietary: [Vegetarian]
+            prepTime: 5
+        }
+    }
+}</textarea>
+                </div>
+            </div>
+
+            <!-- Validation Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>
+                        <span>✅</span>
+                        Validation Results
+                    </h3>
+                </div>
+                <div class="panel-content">
+                    <button class="generate-btn" onclick="validateDSL()">
+                        🔍 Validate DSL
+                    </button>
+                    
+                    <div class="validation-results" id="validationResults">
+                        <div class="validation-item success">
+                            <span>✓</span>
+                            <span>Syntax validation passed</span>
+                        </div>
+                        <div class="validation-item success">
+                            <span>✓</span>
+                            <span>All dietary constraints validated</span>
+                        </div>
+                        <div class="validation-item success">
+                            <span>✓</span>
+                            <span>Price consistency maintained</span>
+                        </div>
+                        <div class="validation-item warning">
+                            <span>⚠</span>
+                            <span>Consider adding more vegan options</span>
+                        </div>
+                        <div class="validation-item success">
+                            <span>✓</span>
+                            <span>All allergen information complete</span>
+                        </div>
+                        <div class="validation-item success">
+                            <span>✓</span>
+                            <span>Menu structure is well-organized</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Output Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>
+                        <span>📄</span>
+                        Generated Output
+                    </h3>
+                </div>
+                <div class="panel-content">
+                    <div class="format-tabs">
+                        <div class="format-tab active" data-format="html">HTML</div>
+                        <div class="format-tab" data-format="json">JSON</div>
+                        <div class="format-tab" data-format="pdf">PDF</div>
+                    </div>
+                    
+                    <button class="generate-btn" onclick="generateOutput()">
+                        🚀 Generate Menu
+                    </button>
+                    
+                    <div class="output-content" id="outputContent">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;The Modern Bistro - Menu&lt;/title&gt;
+    &lt;style&gt;
+        .menu { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 2rem; }
+        .category { margin-bottom: 2rem; }
+        .item { border-bottom: 1px solid #eee; padding: 1rem 0; }
+        .price { float: right; font-weight: bold; color: #2563eb; }
+        .allergens { font-size: 0.8rem; color: #666; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="menu"&gt;
+        &lt;div class="header"&gt;
+            &lt;h1&gt;The Modern Bistro&lt;/h1&gt;
+            &lt;p&gt;123 Main Street, London&lt;/p&gt;
+            &lt;p&gt;+44 20 1234 5678&lt;/p&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="category"&gt;
+            &lt;h2&gt;Starters&lt;/h2&gt;
+            &lt;div class="item"&gt;
+                &lt;h3&gt;Bruschetta &lt;span class="price"&gt;£8.50&lt;/span&gt;&lt;/h3&gt;
+                &lt;p&gt;Toasted bread with tomatoes, garlic, and basil&lt;/p&gt;
+                &lt;p class="allergens"&gt;Contains: Gluten | Vegetarian&lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div class="item"&gt;
+                &lt;h3&gt;Caesar Salad &lt;span class="price"&gt;£12.00&lt;/span&gt;&lt;/h3&gt;
+                &lt;p&gt;Crisp romaine lettuce with parmesan and croutons&lt;/p&gt;
+                &lt;p class="allergens"&gt;Contains: Gluten, Dairy, Eggs | Vegetarian&lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="category"&gt;
+            &lt;h2&gt;Main Courses&lt;/h2&gt;
+            &lt;div class="item"&gt;
+                &lt;h3&gt;Margherita Pizza &lt;span class="price"&gt;£16.50&lt;/span&gt;&lt;/h3&gt;
+                &lt;p&gt;Classic pizza with tomato, mozzarella, and basil&lt;/p&gt;
+                &lt;p class="allergens"&gt;Contains: Gluten, Dairy | Vegetarian&lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3 class="feature-title">Fast Development</h3>
+                <p class="feature-description">Create complex menus in minutes using intuitive DSL syntax instead of manually coding HTML, JSON, and PDF formats.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3 class="feature-title">Built-in Validation</h3>
+                <p class="feature-description">Automatic validation ensures dietary constraints, allergen information, and price consistency across all generated formats.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3 class="feature-title">Multi-Platform Export</h3>
+                <p class="feature-description">Single source generates HTML for websites, JSON for APIs, and PDF for print menus, ensuring consistency everywhere.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🧩</div>
+                <h3 class="feature-title">Extensible Architecture</h3>
+                <p class="feature-description">Built with Xtext framework allowing easy extension for new dietary requirements, allergens, or output formats.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📋</div>
+                <h3 class="feature-title">Smart Suggestions</h3>
+                <p class="feature-description">IDE integration provides auto-completion, syntax highlighting, and real-time error detection for improved developer experience.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🌐</div>
+                <h3 class="feature-title">Cross-Platform Deployment</h3>
+                <p class="feature-description">Generated menus deploy instantly across web platforms, mobile apps, and print systems without manual conversion.</p>
+            </div>
+        </div>
+
+        <!-- Technology Stack -->
+        <div class="tech-stack">
+            <h3>Technology Stack & Implementation</h3>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <div class="tech-icon">X</div>
+                    <span>Xtext - DSL Framework</span>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">E</div>
+                    <span>Xtend - Code Generation</span>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">☕</div>
+                    <span>Java - Core Implementation</span>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🌙</div>
+                    <span>Eclipse - IDE Integration</span>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">📋</div>
+                    <span>ANTLR - Parser Generation</span>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🔍</div>
+                    <span>EMF - Model Framework</span>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">📄</div>
+                    <span>HTML/CSS - Web Output</span>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">📊</div>
+                    <span>JSON - API Integration</span>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">📑</div>
+                    <span>PDF - Print Generation</span>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">✅</div>
+                    <span>JUnit - Testing Framework</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Format tab switching
+        document.querySelectorAll('.format-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                document.querySelectorAll('.format-tab').forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tab
+                this.classList.add('active');
+                
+                const format = this.getAttribute('data-format');
+                updateOutput(format);
+            });
+        });
+
+        function updateOutput(format) {
+            const outputContent = document.getElementById('outputContent');
+            
+            const outputs = {
+                html: `&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;The Modern Bistro - Menu&lt;/title&gt;
+    &lt;style&gt;
+        .menu { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 2rem; }
+        .category { margin-bottom: 2rem; }
+        .item { border-bottom: 1px solid #eee; padding: 1rem 0; }
+        .price { float: right; font-weight: bold; color: #2563eb; }
+        .allergens { font-size: 0.8rem; color: #666; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="menu"&gt;
+        &lt;div class="header"&gt;
+            &lt;h1&gt;The Modern Bistro&lt;/h1&gt;
+            &lt;p&gt;123 Main Street, London&lt;/p&gt;
+            &lt;p&gt;+44 20 1234 5678&lt;/p&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="category"&gt;
+            &lt;h2&gt;Starters&lt;/h2&gt;
+            &lt;div class="item"&gt;
+                &lt;h3&gt;Bruschetta &lt;span class="price"&gt;£8.50&lt;/span&gt;&lt;/h3&gt;
+                &lt;p&gt;Toasted bread with tomatoes, garlic, and basil&lt;/p&gt;
+                &lt;p class="allergens"&gt;Contains: Gluten | Vegetarian&lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;`,
+                json: `{
+  "restaurant": {
+    "name": "The Modern Bistro",
+    "address": "123 Main Street, London",
+    "phone": "+44 20 1234 5678",
+    "cuisine": "Italian",
+    "categories": [
+      {
+        "name": "Starters",
+        "items": [
+          {
+            "name": "Bruschetta",
+            "price": 8.50,
+            "description": "Toasted bread with tomatoes, garlic, and basil",
+            "allergens": ["Gluten"],
+            "dietary": ["Vegetarian"],
+            "prepTime": 10
+          },
+          {
+            "name": "Caesar Salad",
+            "price": 12.00,
+            "description": "Crisp romaine lettuce with parmesan and croutons",
+            "allergens": ["Gluten", "Dairy", "Eggs"],
+            "dietary": ["Vegetarian"],
+            "prepTime": 8
+          }
+        ]
+      },
+      {
+        "name": "Main Courses",
+        "items": [
+          {
+            "name": "Margherita Pizza",
+            "price": 16.50,
+            "description": "Classic pizza with tomato, mozzarella, and basil",
+            "allergens": ["Gluten", "Dairy"],
+            "dietary": ["Vegetarian"],
+            "prepTime": 15,
+            "spiceLevel": 0
+          }
+        ]
+      }
+    ]
+  }
+}`,
+                pdf: `PDF Generation Output:
+==================
+
+Restaurant: The Modern Bistro
+Address: 123 Main Street, London
+Phone: +44 20 1234 5678
+
+STARTERS
+--------
+Bruschetta                                £8.50
+Toasted bread with tomatoes, garlic, and basil
+Contains: Gluten | Vegetarian | Prep: 10 min
+
+Caesar Salad                             £12.00
+Crisp romaine lettuce with parmesan and croutons
+Contains: Gluten, Dairy, Eggs | Vegetarian | Prep: 8 min
+
+MAIN COURSES
+------------
+Margherita Pizza                         £16.50
+Classic pizza with tomato, mozzarella, and basil
+Contains: Gluten, Dairy | Vegetarian | Prep: 15 min
+
+Grilled Salmon                           £24.00
+Fresh Atlantic salmon with lemon and herbs
+Contains: Fish | Gluten Free | Prep: 20 min
+
+DESSERTS
+--------
+Tiramisu                                  £9.50
+Classic Italian dessert with coffee and mascarpone
+Contains: Dairy, Eggs, Gluten | Vegetarian | Prep: 5 min
+
+Generated using Restaurant Menu DSL v1.0
+Automated validation ensures consistency across all platforms`
+            };
+            
+            outputContent.textContent = outputs[format];
+        }
+
+        function validateDSL() {
+            const button = document.querySelector('.generate-btn');
+            const results = document.getElementById('validationResults');
+            
+            // Simulate validation
+            button.disabled = true;
+            button.textContent = '🔄 Validating...';
+            
+            setTimeout(() => {
+                button.disabled = false;
+                button.textContent = '🔍 Validate DSL';
+                
+                // Add animation effect
+                results.style.opacity = '0';
+                setTimeout(() => {
+                    results.style.transition = 'opacity 0.3s ease';
+                    results.style.opacity = '1';
+                }, 100);
+            }, 1500);
+        }
+
+        function generateOutput() {
+            const button = event.target;
+            const activeFormat = document.querySelector('.format-tab.active').getAttribute('data-format');
+            
+            button.disabled = true;
+            button.textContent = '🔄 Generating...';
+            
+            setTimeout(() => {
+                button.disabled = false;
+                button.textContent = '🚀 Generate Menu';
+                updateOutput(activeFormat);
+                
+                // Add success animation
+                const outputContent = document.getElementById('outputContent');
+                outputContent.style.opacity = '0';
+                setTimeout(() => {
+                    outputContent.style.transition = 'opacity 0.3s ease';
+                    outputContent.style.opacity = '1';
+                }, 100);
+            }, 2000);
+        }
+
+        // Auto-generate on page load
+        setTimeout(() => {
+            updateOutput('html');
+        }, 1000);
+    </script>
+</body>
+</html>

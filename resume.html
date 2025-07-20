@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume - Portfolio</title>
-    <meta name="description" content="View my professional resume and career timeline">
+    <title>Resume - Vaibhav Patel</title>
+    <meta name="description" content="View Vaibhav Patel's professional resume and career timeline">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,44 +20,54 @@
         }
 
         :root {
-            --bg-primary: #0a0a0a;
-            --bg-secondary: #141414;
-            --bg-tertiary: #1a1a1a;
-            --border-color: #262626;
-            --text-primary: #ffffff;
-            --text-secondary: #a3a3a3;
-            --text-muted: #737373;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --bg-accent: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
             --primary: #3b82f6;
-            --primary-hover: #60a5fa;
-            --accent: #10b981;
-            --gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            --gradient-text: linear-gradient(to right, #3b82f6, #8b5cf6, #10b981);
+            --primary-hover: #2563eb;
+            --primary-light: #dbeafe;
+            --accent: #06b6d4;
+            --accent-hover: #0891b2;
+            --success: #10b981;
             --warning: #f59e0b;
-            --danger: #ef4444;
+            --error: #ef4444;
+            --border-light: #e2e8f0;
+            --border-medium: #cbd5e1;
+            --gradient-primary: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+            --gradient-background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            --gradient-text: linear-gradient(to right, #3b82f6, #06b6d4, #10b981);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
         }
 
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-primary);
+            background: var(--gradient-background);
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* Navigation (Same as other pages) */
+        /* Navigation */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(10, 10, 10, 0.8);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-light);
             z-index: 1000;
             transition: all 0.3s ease;
         }
 
         nav.scrolled {
-            background: rgba(10, 10, 10, 0.95);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--shadow-sm);
         }
 
         .nav-container {
@@ -104,7 +114,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: var(--gradient);
+            background: var(--gradient-primary);
             transition: width 0.3s ease;
         }
 
@@ -130,7 +140,7 @@
         .resume-title {
             font-size: clamp(2.5rem, 5vw, 3.5rem);
             font-weight: 800;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             background: var(--gradient-text);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -141,8 +151,25 @@
         .resume-subtitle {
             font-size: 1.25rem;
             color: var(--text-secondary);
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
             animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
         }
 
         .download-btn {
@@ -150,18 +177,19 @@
             align-items: center;
             gap: 0.5rem;
             padding: 0.875rem 2rem;
-            background: var(--gradient);
+            background: var(--gradient-primary);
             color: white;
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-weight: 600;
             transition: all 0.3s ease;
             animation: fadeInUp 0.8s ease 0.4s both;
+            box-shadow: var(--shadow-md);
         }
 
         .download-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+            box-shadow: var(--shadow-lg);
         }
 
         /* Timeline Controls */
@@ -175,25 +203,28 @@
         }
 
         .timeline-tab {
-            padding: 0.5rem 1.5rem;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-light);
             border-radius: 25px;
             color: var(--text-secondary);
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 500;
+            box-shadow: var(--shadow-sm);
         }
 
         .timeline-tab.active {
-            background: var(--gradient);
+            background: var(--gradient-primary);
             color: white;
             border-color: transparent;
+            box-shadow: var(--shadow-md);
         }
 
         .timeline-tab:hover:not(.active) {
             border-color: var(--primary);
             color: var(--text-primary);
+            transform: translateY(-1px);
         }
 
         /* Interactive Timeline */
@@ -213,20 +244,22 @@
             left: 50%;
             top: 0;
             bottom: 0;
-            width: 2px;
-            background: var(--border-color);
+            width: 3px;
+            background: var(--border-light);
             transform: translateX(-50%);
+            border-radius: 2px;
         }
 
         .timeline-progress {
             position: absolute;
             left: 50%;
             top: 0;
-            width: 2px;
-            background: var(--gradient);
+            width: 3px;
+            background: var(--gradient-primary);
             transform: translateX(-50%);
             height: 0;
             transition: height 0.5s ease;
+            border-radius: 2px;
         }
 
         .timeline-entry {
@@ -258,29 +291,32 @@
             position: absolute;
             left: 50%;
             top: 30px;
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             background: var(--bg-primary);
-            border: 3px solid var(--primary);
+            border: 4px solid var(--primary);
             border-radius: 50%;
             transform: translateX(-50%);
             z-index: 2;
             transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
         }
 
         .timeline-entry:hover .timeline-node {
             background: var(--primary);
             box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+            transform: translateX(-50%) scale(1.2);
         }
 
         .timeline-card {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
             padding: 2rem;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            box-shadow: var(--shadow-sm);
         }
 
         .timeline-card::before {
@@ -289,16 +325,16 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: var(--gradient);
+            height: 4px;
+            background: var(--gradient-primary);
             transform: scaleX(0);
             transition: transform 0.3s ease;
         }
 
         .timeline-card:hover {
             border-color: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
         }
 
         .timeline-card:hover::before {
@@ -307,11 +343,12 @@
 
         .timeline-date {
             display: inline-block;
-            padding: 0.25rem 0.75rem;
-            background: var(--bg-tertiary);
+            padding: 0.5rem 1rem;
+            background: var(--primary-light);
             border-radius: 20px;
             font-size: 0.875rem;
             color: var(--primary);
+            font-weight: 600;
             margin-bottom: 1rem;
         }
 
@@ -319,18 +356,40 @@
             font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
+            color: var(--text-primary);
         }
 
         .timeline-subtitle {
             font-size: 1.125rem;
             color: var(--text-secondary);
             margin-bottom: 1rem;
+            font-weight: 500;
         }
 
         .timeline-description {
             color: var(--text-secondary);
             line-height: 1.8;
             margin-bottom: 1rem;
+        }
+
+        .timeline-achievements {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .timeline-achievements li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .timeline-achievements li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
         }
 
         .timeline-skills {
@@ -340,18 +399,20 @@
         }
 
         .skill-tag {
-            padding: 0.25rem 0.75rem;
+            padding: 0.375rem 0.75rem;
             background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border-light);
             border-radius: 20px;
             font-size: 0.75rem;
             color: var(--text-secondary);
             transition: all 0.3s ease;
+            font-weight: 500;
         }
 
         .skill-tag:hover {
             border-color: var(--primary);
             color: var(--primary);
+            background: var(--primary-light);
         }
 
         /* Achievement Badges */
@@ -361,7 +422,7 @@
             gap: 0.5rem;
             padding: 0.5rem 1rem;
             background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border-light);
             border-radius: 8px;
             margin-bottom: 0.5rem;
         }
@@ -369,12 +430,56 @@
         .achievement-icon {
             width: 20px;
             height: 20px;
-            background: var(--accent);
+            background: var(--success);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 0.75rem;
+            color: white;
+        }
+
+        /* Quick Stats */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 2rem;
+            max-width: 1280px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .stat-card {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
         }
 
         /* Animations */
@@ -419,6 +524,17 @@
                 overflow-x: auto;
                 padding-bottom: 1rem;
             }
+
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .quick-stats {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                margin: 2rem 1rem;
+            }
         }
 
         /* Menu Toggle */
@@ -442,20 +558,21 @@
             }
         }
 
-        /* Hidden by default */
-        .timeline-entry.hidden {
-            display: none;
-        }
-
         /* Footer */
         footer {
             padding: 3rem 2rem;
             text-align: center;
-            border-top: 1px solid var(--border-color);
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border-light);
         }
 
         footer p {
             color: var(--text-secondary);
+        }
+
+        /* Hidden by default */
+        .timeline-entry.hidden {
+            display: none;
         }
     </style>
 </head>
@@ -463,7 +580,7 @@
     <!-- Navigation -->
     <nav id="navbar">
         <div class="nav-container">
-            <div class="logo">Portfolio</div>
+            <div class="logo">CodeArt</div>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About</a></li>
@@ -482,25 +599,69 @@
     <main class="main-content">
         <!-- Resume Header -->
         <section class="resume-header">
-            <h1 class="resume-title">[Your Name]</h1>
-            <p class="resume-subtitle">Full Stack Developer | Tech Enthusiast | Problem Solver</p>
-            <a href="#" class="download-btn">
+            <h1 class="resume-title">Vaibhav Patel</h1>
+            <p class="resume-subtitle">Computer Science Student | AI Developer | Testing Specialist</p>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span>📧</span>
+                    <span>vaibhav.patel.kumar@gmail.com</span>
+                </div>
+                <div class="contact-item">
+                    <span>📱</span>
+                    <span>(+44) 7479 496992</span>
+                </div>
+                <div class="contact-item">
+                    <span>💼</span>
+                    <span>linkedin.com/in/vaibhav-patel-a27536197</span>
+                </div>
+                <div class="contact-item">
+                    <span>🔗</span>
+                    <span>github.com/light-vp</span>
+                </div>
+            </div>
+            
+            <a href="#" class="download-btn" onclick="downloadResume()">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                     <polyline points="7 10 12 15 17 10"></polyline>
                     <line x1="12" y1="15" x2="12" y2="3"></line>
                 </svg>
-                Download Resume PDF
+                Download PDF Resume
             </a>
         </section>
+
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+            <div class="stat-card">
+                <div class="stat-icon">🎓</div>
+                <div class="stat-number">1st Class</div>
+                <div class="stat-label">Predicted Honours</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💼</div>
+                <div class="stat-number">3+</div>
+                <div class="stat-label">Years Experience</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏆</div>
+                <div class="stat-number">ISTQB</div>
+                <div class="stat-label">Certified Tester</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🌍</div>
+                <div class="stat-number">3</div>
+                <div class="stat-label">Languages</div>
+            </div>
+        </div>
 
         <!-- Timeline Controls -->
         <div class="timeline-controls">
             <button class="timeline-tab active" data-filter="all">All</button>
-            <button class="timeline-tab" data-filter="work">Work Experience</button>
             <button class="timeline-tab" data-filter="education">Education</button>
+            <button class="timeline-tab" data-filter="work">Work Experience</button>
+            <button class="timeline-tab" data-filter="project">Projects</button>
             <button class="timeline-tab" data-filter="certification">Certifications</button>
-            <button class="timeline-tab" data-filter="achievement">Achievements</button>
         </div>
 
         <!-- Interactive Timeline -->
@@ -509,186 +670,297 @@
                 <div class="timeline-line"></div>
                 <div class="timeline-progress" id="timelineProgress"></div>
 
-                <!-- Work Experience 1 -->
-                <div class="timeline-entry" data-category="work">
+                <!-- Current Project -->
+                <div class="timeline-entry" data-category="project">
                     <div class="timeline-node"></div>
                     <div class="timeline-card">
-                        <span class="timeline-date">Jan 2023 - Present</span>
-                        <h3 class="timeline-title">Senior Full Stack Developer</h3>
-                        <p class="timeline-subtitle">Tech Innovations Inc.</p>
+                        <span class="timeline-date">Oct 2024 - Apr 2025</span>
+                        <h3 class="timeline-title">LLM-Powered Data Insights Platform</h3>
+                        <p class="timeline-subtitle">Final Year Project - King's College London</p>
                         <p class="timeline-description">
-                            Leading the development of enterprise-level applications using cutting-edge technologies. 
-                            Responsible for system architecture decisions, code reviews, and mentoring a team of 5 developers.
+                            Built an AI analytics platform using small LLMs with RAG and automated pandas agents, 
+                            allowing small businesses to query revenue, correlations, and business insights through 
+                            natural language interface on their stored data.
                         </p>
-                        <ul class="timeline-description">
-                            <li>Architected microservices infrastructure reducing system latency by 40%</li>
-                            <li>Implemented CI/CD pipelines improving deployment efficiency by 60%</li>
-                            <li>Led migration from monolithic to microservices architecture</li>
+                        <ul class="timeline-achievements">
+                            <li>Evaluated several small LLMs including Gemma3 (1b), TinyLlama (1.1b) and Qwen2.5 (3b)</li>
+                            <li>Demonstrated that even small LLMs can deliver meaningful data insights with agents</li>
+                            <li>Created cost-effective AI solution for small and medium businesses</li>
                         </ul>
                         <div class="timeline-skills">
-                            <span class="skill-tag">React</span>
-                            <span class="skill-tag">Node.js</span>
-                            <span class="skill-tag">AWS</span>
-                            <span class="skill-tag">Docker</span>
-                            <span class="skill-tag">MongoDB</span>
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">LLMs</span>
+                            <span class="skill-tag">RAG</span>
+                            <span class="skill-tag">Pandas</span>
+                            <span class="skill-tag">Gemma3</span>
+                            <span class="skill-tag">TinyLlama</span>
+                            <span class="skill-tag">Qwen2.5</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Education 1 -->
+                <!-- Restaurant Menu DSL -->
+                <div class="timeline-entry" data-category="project">
+                    <div class="timeline-node"></div>
+                    <div class="timeline-card">
+                        <span class="timeline-date">Jan 2025 - Apr 2025</span>
+                        <h3 class="timeline-title">Restaurant Menu Management Language</h3>
+                        <p class="timeline-subtitle">Domain-Specific Language Project</p>
+                        <p class="timeline-description">
+                            Created a domain-specific language using Xtext to allow restaurant managers to build 
+                            menus across platforms using simple text-based language.
+                        </p>
+                        <ul class="timeline-achievements">
+                            <li>Automated menu generation in HTML, JSON and PDF without inconsistency</li>
+                            <li>Used validation rules in Xtend to ensure dietary constraints and price consistency</li>
+                            <li>Enabled quick menu deployment across all platforms</li>
+                        </ul>
+                        <div class="timeline-skills">
+                            <span class="skill-tag">Xtext</span>
+                            <span class="skill-tag">Xtend</span>
+                            <span class="skill-tag">DSL</span>
+                            <span class="skill-tag">Eclipse</span>
+                            <span class="skill-tag">Java</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CIUK Challenge -->
+                <div class="timeline-entry" data-category="project">
+                    <div class="timeline-node"></div>
+                    <div class="timeline-card">
+                        <span class="timeline-date">Sep 2024 - Dec 2024</span>
+                        <h3 class="timeline-title">CIUK 2024 Cluster Challenge</h3>
+                        <p class="timeline-subtitle">King's College London Representative</p>
+                        <p class="timeline-description">
+                            Represented King's College London in the 6-part Hackathon event, completing various 
+                            challenges posed by industry partners.
+                        </p>
+                        <ul class="timeline-achievements">
+                            <li>Completed challenges by Alces Flight, OCF, Logicalis and DDN</li>
+                            <li>Gained first-time experience in benchmarking HPCs</li>
+                            <li>Processed AI workloads efficiently on HPCs</li>
+                            <li>Used technologies like Grafana and Kafka for monitoring</li>
+                        </ul>
+                        <div class="timeline-skills">
+                            <span class="skill-tag">HPC</span>
+                            <span class="skill-tag">Grafana</span>
+                            <span class="skill-tag">Kafka</span>
+                            <span class="skill-tag">Cluster Computing</span>
+                            <span class="skill-tag">Benchmarking</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AtkinsRéalis Work -->
+                <div class="timeline-entry" data-category="work">
+                    <div class="timeline-node"></div>
+                    <div class="timeline-card">
+                        <span class="timeline-date">Jul 2023 - Jul 2024</span>
+                        <h3 class="timeline-title">Harnessing Generative AI for Business Analyst</h3>
+                        <p class="timeline-subtitle">AtkinsRéalis - Placement Year</p>
+                        <p class="timeline-description">
+                            Internal project at consultancy firm AtkinsRéalis, providing technical support on 
+                            leveraging Gen-AI as an assistant to business analysts.
+                        </p>
+                        <ul class="timeline-achievements">
+                            <li>Derived use cases from interviews with capability leaders within the division</li>
+                            <li>Quantified time and effort BAs spent on each use case through surveys</li>
+                            <li>Tested model performance through ChatGPT, Copilot and Claude on each use case</li>
+                            <li>Conducted options analysis identifying Copilot as best value for deployment cost</li>
+                            <li>Proposed findings to practice leads with strong data points for data-driven decisions</li>
+                        </ul>
+                        <div class="timeline-skills">
+                            <span class="skill-tag">Generative AI</span>
+                            <span class="skill-tag">Business Analysis</span>
+                            <span class="skill-tag">ChatGPT</span>
+                            <span class="skill-tag">Copilot</span>
+                            <span class="skill-tag">Claude</span>
+                            <span class="skill-tag">Options Analysis</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Heathrow Work -->
+                <div class="timeline-entry" data-category="work">
+                    <div class="timeline-node"></div>
+                    <div class="timeline-card">
+                        <span class="timeline-date">Jul 2023 - Jul 2024</span>
+                        <h3 class="timeline-title">Security Program - Testing Integration & Assurance</h3>
+                        <p class="timeline-subtitle">Heathrow Airport - Client Role</p>
+                        <p class="timeline-description">
+                            Client role within the Security Program at Heathrow Airport as Test witness and project support, 
+                            where 140 new security screening lanes were being introduced.
+                        </p>
+                        <ul class="timeline-achievements">
+                            <li>Managed Azure DevOps as single point of data store for test-related activities</li>
+                            <li>Migrated use cases from Excel to ADO using Modern Requirements extension</li>
+                            <li>Collaborated with PM to create weekly reports with auto-generated ADO Dashboards</li>
+                            <li>Established end-to-end defect management process supporting test strategy development</li>
+                        </ul>
+                        <div class="timeline-skills">
+                            <span class="skill-tag">Azure DevOps</span>
+                            <span class="skill-tag">Test Management</span>
+                            <span class="skill-tag">Project Management</span>
+                            <span class="skill-tag">Process Improvement</span>
+                            <span class="skill-tag">Modern Requirements</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Education - KCL -->
                 <div class="timeline-entry" data-category="education">
                     <div class="timeline-node"></div>
                     <div class="timeline-card">
-                        <span class="timeline-date">2019 - 2023</span>
-                        <h3 class="timeline-title">Bachelor of Computer Science</h3>
-                        <p class="timeline-subtitle">University of Technology</p>
+                        <span class="timeline-date">Sep 2021 - May 2025</span>
+                        <h3 class="timeline-title">BSc Computer Science with A Year In Industry</h3>
+                        <p class="timeline-subtitle">King's College London</p>
                         <p class="timeline-description">
-                            Graduated with honors (GPA: 3.8/4.0). Focused on software engineering, 
-                            algorithms, and artificial intelligence. Active member of the coding club 
-                            and hackathon team.
+                            4-year degree program with integrated industry placement. Predicted First Class Honours with 
+                            focus on AI, software engineering, and innovative technology solutions.
                         </p>
                         <div class="achievement-badge">
                             <span class="achievement-icon">🏆</span>
-                            <span>Dean's List - All Semesters</span>
+                            <span>1st Class Predicted - All Years</span>
                         </div>
                         <div class="timeline-skills">
-                            <span class="skill-tag">Data Structures</span>
-                            <span class="skill-tag">Algorithms</span>
-                            <span class="skill-tag">Machine Learning</span>
-                            <span class="skill-tag">Web Development</span>
+                            <span class="skill-tag">Computer Science</span>
+                            <span class="skill-tag">Software Engineering</span>
+                            <span class="skill-tag">AI & Machine Learning</span>
+                            <span class="skill-tag">Algorithms & Data Structures</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Work Experience 2 -->
-                <div class="timeline-entry" data-category="work">
+                <!-- Helpdesk Project -->
+                <div class="timeline-entry" data-category="project">
                     <div class="timeline-node"></div>
                     <div class="timeline-card">
-                        <span class="timeline-date">Jun 2021 - Dec 2022</span>
-                        <h3 class="timeline-title">Full Stack Developer</h3>
-                        <p class="timeline-subtitle">Digital Solutions Ltd.</p>
+                        <span class="timeline-date">Jan 2023 - Apr 2023</span>
+                        <h3 class="timeline-title">Helpdesk - Smart Ticketing System</h3>
+                        <p class="timeline-subtitle">Group Project - Team Lead</p>
                         <p class="timeline-description">
-                            Developed and maintained multiple client projects ranging from e-commerce 
-                            platforms to enterprise management systems.
+                            Led a team of ten to develop a two-part ticketing app in Django that assists students 
+                            to resolve queries related to their university life.
                         </p>
-                        <ul class="timeline-description">
-                            <li>Built RESTful APIs serving 100K+ daily active users</li>
-                            <li>Optimized database queries reducing load time by 50%</li>
-                            <li>Collaborated with cross-functional teams in Agile environment</li>
+                        <ul class="timeline-achievements">
+                            <li>Designed dynamic knowledge base storing articles in categorical format</li>
+                            <li>Enabled direct contact to department heads for new issues</li>
+                            <li>Implemented quick search using bart-large-mnli for closest related article retrieval</li>
                         </ul>
                         <div class="timeline-skills">
-                            <span class="skill-tag">Vue.js</span>
-                            <span class="skill-tag">Express.js</span>
-                            <span class="skill-tag">PostgreSQL</span>
-                            <span class="skill-tag">Redis</span>
+                            <span class="skill-tag">Django</span>
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">HTML/CSS</span>
+                            <span class="skill-tag">BART-NLP</span>
+                            <span class="skill-tag">Team Leadership</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Certification 1 -->
+                <!-- ISTQB Certification -->
                 <div class="timeline-entry" data-category="certification">
                     <div class="timeline-node"></div>
                     <div class="timeline-card">
-                        <span class="timeline-date">Aug 2022</span>
-                        <h3 class="timeline-title">AWS Certified Solutions Architect</h3>
-                        <p class="timeline-subtitle">Amazon Web Services</p>
+                        <span class="timeline-date">Dec 2023</span>
+                        <h3 class="timeline-title">ISTQB Certified Tester Foundation Level</h3>
+                        <p class="timeline-subtitle">International Software Testing Qualifications Board</p>
                         <p class="timeline-description">
-                            Earned certification demonstrating expertise in designing distributed 
-                            systems on AWS platform.
+                            Earned certification demonstrating comprehensive understanding of software testing 
+                            principles, practices, and industry standards.
                         </p>
                         <div class="achievement-badge">
                             <span class="achievement-icon">✓</span>
-                            <span>Score: 920/1000</span>
+                            <span>Foundation Level (v2018)</span>
                         </div>
                         <div class="timeline-skills">
-                            <span class="skill-tag">Cloud Architecture</span>
-                            <span class="skill-tag">Security</span>
-                            <span class="skill-tag">Scalability</span>
+                            <span class="skill-tag">Software Testing</span>
+                            <span class="skill-tag">Test Design</span>
+                            <span class="skill-tag">Quality Assurance</span>
+                            <span class="skill-tag">ISTQB Standards</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Achievement 1 -->
-                <div class="timeline-entry" data-category="achievement">
-                    <div class="timeline-node"></div>
-                    <div class="timeline-card">
-                        <span class="timeline-date">Nov 2021</span>
-                        <h3 class="timeline-title">1st Place - National Hackathon</h3>
-                        <p class="timeline-subtitle">TechHack 2021</p>
-                        <p class="timeline-description">
-                            Led a team of 4 to victory in a 48-hour hackathon. Developed an AI-powered 
-                            healthcare solution that helps predict patient readmission rates.
-                        </p>
-                        <div class="achievement-badge">
-                            <span class="achievement-icon">🥇</span>
-                            <span>$10,000 Prize</span>
-                        </div>
-                        <div class="timeline-skills">
-                            <span class="skill-tag">Python</span>
-                            <span class="skill-tag">TensorFlow</span>
-                            <span class="skill-tag">React Native</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Work Experience 3 -->
+                <!-- Cherry Hill Tuition -->
                 <div class="timeline-entry" data-category="work">
                     <div class="timeline-node"></div>
                     <div class="timeline-card">
-                        <span class="timeline-date">Jan 2020 - May 2021</span>
-                        <h3 class="timeline-title">Frontend Developer</h3>
-                        <p class="timeline-subtitle">Creative Web Agency</p>
+                        <span class="timeline-date">Sep 2022 - Mar 2023</span>
+                        <h3 class="timeline-title">STEM Tutor</h3>
+                        <p class="timeline-subtitle">Cherry Hill Tuition</p>
                         <p class="timeline-description">
-                            Specialized in creating responsive, user-friendly interfaces for various 
-                            clients including startups and established businesses.
+                            Taught Maths and Science to students from year 7 to A-levels in group sizes of 1 to 8, 
+                            helping students achieve significant improvements in understanding and grades.
                         </p>
-                        <ul class="timeline-description">
-                            <li>Developed 20+ responsive websites with 99% client satisfaction</li>
-                            <li>Implemented modern UI/UX practices improving user engagement by 35%</li>
-                            <li>Collaborated closely with designers to ensure pixel-perfect implementations</li>
+                        <ul class="timeline-achievements">
+                            <li>Students benefited from extra lessons with increased grades received</li>
+                            <li>Improved understanding of crucial concepts within each subject</li>
+                            <li>Personalized teaching approaches for different learning styles</li>
                         </ul>
                         <div class="timeline-skills">
-                            <span class="skill-tag">React</span>
-                            <span class="skill-tag">Sass</span>
-                            <span class="skill-tag">JavaScript</span>
-                            <span class="skill-tag">Figma</span>
+                            <span class="skill-tag">Teaching</span>
+                            <span class="skill-tag">Mathematics</span>
+                            <span class="skill-tag">Science</span>
+                            <span class="skill-tag">Mentoring</span>
+                            <span class="skill-tag">Communication</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Certification 2 -->
-                <div class="timeline-entry" data-category="certification">
+                <!-- Accessibility Research -->
+                <div class="timeline-entry" data-category="project">
                     <div class="timeline-node"></div>
                     <div class="timeline-card">
-                        <span class="timeline-date">Mar 2020</span>
-                        <h3 class="timeline-title">Google Mobile Web Specialist</h3>
-                        <p class="timeline-subtitle">Google Developers</p>
+                        <span class="timeline-date">Jun 2022 - Jul 2022</span>
+                        <h3 class="timeline-title">Assistive Technologies for Visually Impaired Programmers</h3>
+                        <p class="timeline-subtitle">Research Project - KCL Collaboration</p>
                         <p class="timeline-description">
-                            Certification validating skills in building and optimizing mobile web applications.
+                            Collaborated with professor from KCL to assess accessibility for visually impaired 
+                            programmers on two in-house block-based IDEs.
                         </p>
+                        <ul class="timeline-achievements">
+                            <li>Created report with as-is and to-be state comparing against WCAG standards</li>
+                            <li>Tested IDEs using speech viewers such as NVDA and JAWS</li>
+                            <li>Showed great lack of support for block-based IDEs</li>
+                            <li>Invited to present findings by University of Washington</li>
+                            <li>Proposed solutions including improved keyboard navigation using tree-like representation</li>
+                        </ul>
                         <div class="timeline-skills">
-                            <span class="skill-tag">PWA</span>
-                            <span class="skill-tag">Performance</span>
                             <span class="skill-tag">Accessibility</span>
+                            <span class="skill-tag">WCAG</span>
+                            <span class="skill-tag">NVDA</span>
+                            <span class="skill-tag">JAWS</span>
+                            <span class="skill-tag">Research</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Education 2 -->
+                <!-- A-Levels -->
                 <div class="timeline-entry" data-category="education">
                     <div class="timeline-node"></div>
                     <div class="timeline-card">
-                        <span class="timeline-date">2019</span>
-                        <h3 class="timeline-title">Full Stack Web Development Bootcamp</h3>
-                        <p class="timeline-subtitle">Code Academy</p>
+                        <span class="timeline-date">Aug 2016 - Aug 2021</span>
+                        <h3 class="timeline-title">A-Levels & GCSEs</h3>
+                        <p class="timeline-subtitle">Nower Hill High School</p>
                         <p class="timeline-description">
-                            Intensive 6-month bootcamp covering modern web development technologies 
-                            and best practices. Completed 10+ full-stack projects.
+                            Achieved exceptional results across STEM subjects, demonstrating strong academic foundation 
+                            for Computer Science studies.
                         </p>
+                        <div class="achievement-badge">
+                            <span class="achievement-icon">🌟</span>
+                            <span>A-Levels: Computer Science (A*), Further Maths (A*), Maths (A*), Physics (A)</span>
+                        </div>
+                        <ul class="timeline-achievements">
+                            <li>Top performer in Computer Science and Mathematics</li>
+                            <li>Strong GCSE results including Maths (8), Physics (8), Computer Science (7)</li>
+                            <li>Consistent high achiever across all subjects</li>
+                        </ul>
                         <div class="timeline-skills">
-                            <span class="skill-tag">MERN Stack</span>
-                            <span class="skill-tag">Git</span>
-                            <span class="skill-tag">Agile</span>
+                            <span class="skill-tag">Mathematics</span>
+                            <span class="skill-tag">Further Mathematics</span>
+                            <span class="skill-tag">Computer Science</span>
+                            <span class="skill-tag">Physics</span>
                         </div>
                     </div>
                 </div>
@@ -698,7 +970,7 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2025 [Your Name]. All rights reserved.</p>
+        <p>&copy; 2025 Vaibhav Patel. Building innovative solutions through technology and determination.</p>
     </footer>
 
     <script>
@@ -726,10 +998,10 @@
                 const filter = tab.getAttribute('data-filter');
 
                 // Filter timeline entries
-                entries.forEach(entry => {
+                entries.forEach((entry, index) => {
                     if (filter === 'all' || entry.getAttribute('data-category') === filter) {
                         entry.classList.remove('hidden');
-                        entry.style.animation = 'fadeInUp 0.6s ease forwards';
+                        entry.style.animation = `fadeInUp 0.6s ease ${index * 0.1}s forwards`;
                     } else {
                         entry.classList.add('hidden');
                     }
@@ -759,13 +1031,21 @@
         // Mobile Menu Toggle
         document.getElementById('menuToggle').addEventListener('click', function() {
             this.classList.toggle('active');
-            // Add mobile menu logic here
         });
 
-        // Download Resume (placeholder)
-        document.querySelector('.download-btn').addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('Resume download functionality would be implemented here. You can add a link to your actual PDF resume.');
+        // Download Resume Function
+        function downloadResume() {
+            // In a real implementation, this would download the actual PDF
+            alert('PDF download would be implemented here. For now, this demonstrates the functionality.');
+        }
+
+        // Animate timeline entries on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                entries.forEach((entry, index) => {
+                    entry.style.animationDelay = `${index * 0.1}s`;
+                });
+            }, 500);
         });
     </script>
 </body>
