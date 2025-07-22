@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeArt.fun - Vaibhav Patel | Creative Developer</title>
+    <meta name="description" content="Computer Science student at King's College London specializing in AI, web development, and innovative software solutions">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/themes.css">
+    <link rel="stylesheet" href="assets/css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loading">
+        <div class="loading-content">
+            <div class="loading-logo">CodeArt</div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-text">CodeArt</span>
+                <span class="logo-dot">.fun</span>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <ul class="nav-links desktop-nav">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="#" class="nav-link">Contact</a></li>
+            </ul>
+
+            <!-- Theme Toggle -->
+            <button class="theme-toggle" id="themeToggle">
+                <span class="theme-icon sun">☀️</span>
+                <span class="theme-icon moon">🌙</span>
+            </button>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobileToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-content">
+            <a href="#home" class="mobile-nav-link">Home</a>
+            <a href="about.html" class="mobile-nav-link">About</a>
+            <a href="#" class="mobile-nav-link">Contact</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="hero-background">
+                <div class="floating-shapes">
+                    <div class="shape shape-1"></div>
+                    <div class="shape shape-2"></div>
+                    <div class="shape shape-3"></div>
+                    <div class="shape shape-4"></div>
+                </div>
+            </div>
+            
+            <div class="hero-content">
+                <div class="hero-intro">
+                    <span class="hero-greeting">Hi, I'm</span>
+                    <h1 class="hero-name">Vaibhav Patel</h1>
+                    <div class="hero-title">
+                        <span class="typing-text" id="typingText"></span>
+                        <span class="cursor-blink">|</span>
+                    </div>
+                </div>
+                
+                <p class="hero-description">
+                    Final year Computer Science student at King's College London, crafting innovative solutions 
+                    at the intersection of AI, web development, and creative technology.
+                </p>
+
+                <div class="hero-cta">
+                    <a href="#projects" class="cta-button primary">
+                        <span>View Projects</span>
+                        <span class="button-icon">🚀</span>
+                    </a>
+                    <a href="about.html" class="cta-button secondary">
+                        <span>About Me</span>
+                        <span class="button-icon">👨‍💻</span>
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="15">0</div>
+                        <div class="stat-label">Projects</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="3">0</div>
+                        <div class="stat-label">Years Learning</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="10">0</div>
+                        <div class="stat-label">Technologies</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scroll-indicator">
+                <div class="scroll-arrow"></div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section class="projects-section" id="projects">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Featured Projects</h2>
+                    <p class="section-description">
+                        Showcasing innovative solutions in AI, web development, and software engineering
+                    </p>
+                </div>
+
+                <!-- Project Filters -->
+                <div class="project-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="ai">AI/ML</button>
+                    <button class="filter-btn" data-filter="web">Web Dev</button>
+                    <button class="filter-btn" data-filter="systems">Systems</button>
+                </div>
+
+                <!-- Project Search -->
+                <div class="project-search">
+                    <input type="text" placeholder="Search projects..." id="projectSearch">
+                    <span class="search-icon">🔍</span>
+                </div>
+
+                <!-- Projects Grid -->
+                <div class="projects-grid" id="projectsGrid">
+                    <!-- AI Data Insights Platform -->
+                    <div class="project-card" data-category="ai">
+                        <div class="project-image">
+                            <div class="project-demo">
+                                <div class="demo-placeholder">
+                                    <span class="demo-icon">🤖</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-front">
+                                <h3 class="project-title">LLM-Powered Data Insights</h3>
+                                <p class="project-description">
+                                    AI analytics platform using small LLMs with RAG and automated pandas agents, 
+                                    enabling natural language queries for business insights.
+                                </p>
+                                <div class="project-tags">
+                                    <span class="tag">Python</span>
+                                    <span class="tag">LLMs</span>
+                                    <span class="tag">RAG</span>
+                                </div>
+                            </div>
+                            <div class="project-back">
+                                <div class="tech-stack">
+                                    <h4>Tech Stack</h4>
+                                    <ul>
+                                        <li>Gemma3 & TinyLlama</li>
+                                        <li>Pandas Agents</li>
+                                        <li>Vector Embeddings</li>
+                                        <li>FastAPI Backend</li>
+                                    </ul>
+                                </div>
+                                <div class="project-links">
+                                    <a href="#" class="project-link demo">Live Demo</a>
+                                    <a href="#" class="project-link code">GitHub</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Testing Framework -->
+                    <div class="project-card" data-category="ai systems">
+                        <div class="project-image">
+                            <div class="project-demo">
+                                <div class="demo-placeholder">
+                                    <span class="demo-icon">🧪</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-front">
+                                <h3 class="project-title">AI-Powered Testing Framework</h3>
+                                <p class="project-description">
+                                    Intelligent test generation system with ISTQB compliance, featuring automated 
+                                    test case creation and security vulnerability detection.
+                                </p>
+                                <div class="project-tags">
+                                    <span class="tag">Python</span>
+                                    <span class="tag">pytest</span>
+                                    <span class="tag">ISTQB</span>
+                                </div>
+                            </div>
+                            <div class="project-back">
+                                <div class="tech-stack">
+                                    <h4>Tech Stack</h4>
+                                    <ul>
+                                        <li>AST Analysis</li>
+                                        <li>Azure DevOps</li>
+                                        <li>Coverage Analysis</li>
+                                        <li>Security Scanning</li>
+                                    </ul>
+                                </div>
+                                <div class="project-links">
+                                    <a href="#" class="project-link demo">Live Demo</a>
+                                    <a href="#" class="project-link code">GitHub</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Restaurant DSL -->
+                    <div class="project-card" data-category="systems">
+                        <div class="project-image">
+                            <div class="project-demo">
+                                <div class="demo-placeholder">
+                                    <span class="demo-icon">🍽️</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-front">
+                                <h3 class="project-title">Restaurant Menu DSL</h3>
+                                <p class="project-description">
+                                    Domain-specific language using Xtext for restaurant managers to build 
+                                    consistent menus across platforms with automated generation.
+                                </p>
+                                <div class="project-tags">
+                                    <span class="tag">Xtext</span>
+                                    <span class="tag">Xtend</span>
+                                    <span class="tag">DSL</span>
+                                </div>
+                            </div>
+                            <div class="project-back">
+                                <div class="tech-stack">
+                                    <h4>Tech Stack</h4>
+                                    <ul>
+                                        <li>Eclipse Modeling</li>
+                                        <li>Grammar Definition</li>
+                                        <li>Code Generation</li>
+                                        <li>Multi-format Export</li>
+                                    </ul>
+                                </div>
+                                <div class="project-links">
+                                    <a href="#" class="project-link demo">Live Demo</a>
+                                    <a href="#" class="project-link code">GitHub</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Smart Ticketing System -->
+                    <div class="project-card" data-category="web ai">
+                        <div class="project-image">
+                            <div class="project-demo">
+                                <div class="demo-placeholder">
+                                    <span class="demo-icon">🎫</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-front">
+                                <h3 class="project-title">Smart Ticketing System</h3>
+                                <p class="project-description">
+                                    Django-based helpdesk with AI-powered knowledge base search using 
+                                    BART-large-mnli for intelligent article retrieval.
+                                </p>
+                                <div class="project-tags">
+                                    <span class="tag">Django</span>
+                                    <span class="tag">BART</span>
+                                    <span class="tag">NLP</span>
+                                </div>
+                            </div>
+                            <div class="project-back">
+                                <div class="tech-stack">
+                                    <h4>Tech Stack</h4>
+                                    <ul>
+                                        <li>PostgreSQL</li>
+                                        <li>Celery Tasks</li>
+                                        <li>React Frontend</li>
+                                        <li>Semantic Search</li>
+                                    </ul>
+                                </div>
+                                <div class="project-links">
+                                    <a href="#" class="project-link demo">Live Demo</a>
+                                    <a href="#" class="project-link code">GitHub</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Code Reviewer -->
+                    <div class="project-card" data-category="ai systems">
+                        <div class="project-image">
+                            <div class="project-demo">
+                                <div class="demo-placeholder">
+                                    <span class="demo-icon">🔍</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-front">
+                                <h3 class="project-title">AI Code Reviewer</h3>
+                                <p class="project-description">
+                                    Advanced static analysis tool using GPT-4 for automated code review, 
+                                    security detection, and best practices enforcement.
+                                </p>
+                                <div class="project-tags">
+                                    <span class="tag">GPT-4</span>
+                                    <span class="tag">FastAPI</span>
+                                    <span class="tag">AST</span>
+                                </div>
+                            </div>
+                            <div class="project-back">
+                                <div class="tech-stack">
+                                    <h4>Tech Stack</h4>
+                                    <ul>
+                                        <li>Docker Containers</li>
+                                        <li>GitHub Integration</li>
+                                        <li>Security Analysis</li>
+                                        <li>ML Code Patterns</li>
+                                    </ul>
+                                </div>
+                                <div class="project-links">
+                                    <a href="#" class="project-link demo">Live Demo</a>
+                                    <a href="#" class="project-link code">GitHub</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Accessibility Research Tool -->
+                    <div class="project-card" data-category="web systems">
+                        <div class="project-image">
+                            <div class="project-demo">
+                                <div class="demo-placeholder">
+                                    <span class="demo-icon">♿</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-front">
+                                <h3 class="project-title">Accessibility Research Tool</h3>
+                                <p class="project-description">
+                                    Research platform assessing accessibility for visually impaired programmers 
+                                    with WCAG compliance testing and screen reader integration.
+                                </p>
+                                <div class="project-tags">
+                                    <span class="tag">WCAG</span>
+                                    <span class="tag">Research</span>
+                                    <span class="tag">A11y</span>
+                                </div>
+                            </div>
+                            <div class="project-back">
+                                <div class="tech-stack">
+                                    <h4>Tech Stack</h4>
+                                    <ul>
+                                        <li>NVDA/JAWS Testing</li>
+                                        <li>Automated Testing</li>
+                                        <li>Data Collection</li>
+                                        <li>Statistical Analysis</li>
+                                    </ul>
+                                </div>
+                                <div class="project-links">
+                                    <a href="#" class="project-link demo">Research</a>
+                                    <a href="#" class="project-link code">Publication</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-text">
+                    <p>&copy; 2025 CodeArt.fun - Building the future, one line of code at a time.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="https://linkedin.com/in/vaibhav-patel" target="_blank" class="footer-link">LinkedIn</a>
+                    <a href="https://github.com/vaibhav-patel" target="_blank" class="footer-link">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/theme-toggle.js"></script>
+    <script src="assets/js/animations.js"></script>
+    <script src="assets/js/cursor-effects.js"></script>
+</body>
+</html>

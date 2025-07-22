@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me - CodeArt.fun | Vaibhav Patel</title>
+    <meta name="description" content="Learn about Vaibhav Patel's journey through Computer Science at King's College London, experience, and passion for technology">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/themes.css">
+    <link rel="stylesheet" href="assets/css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-text">CodeArt</span>
+                    <span class="logo-dot">.fun</span>
+                </a>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <ul class="nav-links desktop-nav">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link active">About</a></li>
+                <li><a href="#" class="nav-link">Contact</a></li>
+            </ul>
+
+            <!-- Theme Toggle -->
+            <button class="theme-toggle" id="themeToggle">
+                <span class="theme-icon sun">☀️</span>
+                <span class="theme-icon moon">🌙</span>
+            </button>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobileToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-content">
+            <a href="index.html" class="mobile-nav-link">Home</a>
+            <a href="#about" class="mobile-nav-link">About</a>
+            <a href="#" class="mobile-nav-link">Contact</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="about-hero" id="about">
+            <div class="container">
+                <div class="about-hero-content">
+                    <h1 class="page-title">About Me</h1>
+                    <p class="page-subtitle">My journey through technology, education, and innovation</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section class="timeline-section">
+            <div class="container">
+                <div class="timeline-container">
+                    <div class="timeline-line"></div>
+                    
+                    <!-- Current: 2025 -->
+                    <div class="timeline-item" data-year="2025">
+                        <div class="timeline-marker current">
+                            <span class="marker-dot"></span>
+                            <span class="marker-year">2025</span>
+                        </div>
+                        <div class="timeline-content right">
+                            <div class="timeline-card">
+                                <div class="card-header">
+                                    <h3>Final Year at King's College London</h3>
+                                    <span class="timeline-type education">Education</span>
+                                </div>
+                                <div class="card-body">
+                                    <p>Completing my Computer Science degree with a focus on:</p>
+                                    <ul>
+                                        <li>Advanced AI and Machine Learning</li>
+                                        <li>Distributed Systems Architecture</li>
+                                        <li>Human-Computer Interaction</li>
+                                        <li>Software Engineering Principles</li>
+                                    </ul>
+                                    <div class="achievement-badge">
+                                        <span>🎯 Predicted: First Class Honours</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2024 -->
+                    <div class="timeline-item" data-year="2024">
+                        <div class="timeline-marker">
+                            <span class="marker-dot"></span>
+                            <span class="marker-year">2024</span>
+                        </div>
+                        <div class="timeline-content left">
+                            <div class="timeline-card">
+                                <div class="card-header">
+                                    <h3>AI Research & Development</h3>
+                                    <span class="timeline-type project">Projects</span>
+                                </div>
+                                <div class="card-body">
+                                    <p>Developed cutting-edge AI solutions:</p>
+                                    <ul>
+                                        <li>LLM-powered business analytics platform</li>
+                                        <li>AI code review automation system</li>
+                                        <li>RAG-based knowledge retrieval systems</li>
+                                    </ul>
+                                    <div class="tech-highlights">
+                                        <span class="tech-tag">Python</span>
+                                        <span class="tech-tag">Transformers</span>
+                                        <span class="tech-tag">RAG</span>
+                                        <span class="tech-tag">GPT-4</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2023 -->
+                    <div class="timeline-item" data-year="2023">
+                        <div class="timeline-marker">
+                            <span class="marker-dot"></span>
+                            <span class="marker-year">2023</span>
+                        </div>
+                        <div class="timeline-content right">
+                            <div class="timeline-card">
+                                <div class="card-header">
+                                    <h3>Advanced Web Development</h3>
+                                    <span class="timeline-type experience">Experience</span>
+                                </div>
+                                <div class="card-body">
+                                    <p>Built complex web applications and testing frameworks:</p>
+                                    <ul>
+                                        <li>Django-based ticketing system with NLP</li>
+                                        <li>Domain-specific language development</li>
+                                        <li>ISTQB-compliant testing automation</li>
+                                    </ul>
+                                    <div class="tech-highlights">
+                                        <span class="tech-tag">Django</span>
+                                        <span class="tech-tag">React</span>
+                                        <span class="tech-tag">Xtext</span>
+                                        <span class="tech-tag">Docker</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2022 -->
+                    <div class="timeline-item" data-year="2022">
+                        <div class="timeline-marker">
+                            <span class="marker-dot"></span>
+                            <span class="marker-year">2022</span>
+                        </div>
+                        <div class="timeline-content left">
+                            <div class="timeline-card">
+                                <div class="card-header">
+                                    <h3>King's College London - Year 2</h3>
+                                    <span class="timeline-type education">Education</span>
+                                </div>
+                                <div class="card-body">
+                                    <p>Deep dive into core computer science concepts:</p>
+                                    <ul>
+                                        <li>Data Structures & Algorithms</li>
+                                        <li>Database Systems Design</li>
+                                        <li>Operating Systems</li>
+                                        <li>Software Engineering Methodologies</li>
+                                    </ul>
+                                    <div class="achievement-badge">
+                                        <span>📚 Academic Excellence Award</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2021 -->
+                    <div class="timeline-item" data-year="2021">
+                        <div class="timeline-marker">
+                            <span class="marker-dot"></span>
+                            <span class="marker-year">2021</span>
+                        </div>
+                        <div class="timeline-content right">
+                            <div class="timeline-card">
+                                <div class="card-header">
+                                    <h3>Started at King's College London</h3>
+                                    <span class="timeline-type education">Education</span>
+                                </div>
+                                <div class="card-body">
+                                    <p>Began my Computer Science journey with foundations in:</p>
+                                    <ul>
+                                        <li>Programming Fundamentals (Java, Python)</li>
+                                        <li>Mathematical Foundations</li>
+                                        <li>Introduction to AI & Machine Learning</li>
+                                        <li>Web Technologies</li>
+                                    </ul>
+                                    <div class="achievement-badge">
+                                        <span>🎓 Dean's List Recognition</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills & Certifications Section -->
+        <section class="skills-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Skills & Expertise</h2>
+                    <p class="section-description">Technical proficiencies and continuous learning</p>
+                </div>
+
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <div class="category-header">
+                            <span class="category-icon">🤖</span>
+                            <h3>AI & Machine Learning</h3>
+                        </div>
+                        <div class="skills-list">
+                            <div class="skill-item">
+                                <span class="skill-name">Large Language Models</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="90"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">RAG Systems</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="85"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">NLP/Transformers</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="80"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <div class="category-header">
+                            <span class="category-icon">💻</span>
+                            <h3>Programming Languages</h3>
+                        </div>
+                        <div class="skills-list">
+                            <div class="skill-item">
+                                <span class="skill-name">Python</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="95"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">JavaScript</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="88"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Java</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="85"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <div class="category-header">
+                            <span class="category-icon">🌐</span>
+                            <h3>Web Development</h3>
+                        </div>
+                        <div class="skills-list">
+                            <div class="skill-item">
+                                <span class="skill-name">Django/FastAPI</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="92"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">React/Vue.js</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="85"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Full-Stack Architecture</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="88"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <div class="category-header">
+                            <span class="category-icon">🛠️</span>
+                            <h3>Tools & Platforms</h3>
+                        </div>
+                        <div class="skills-list">
+                            <div class="skill-item">
+                                <span class="skill-name">Docker/Kubernetes</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="82"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Azure DevOps</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="78"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Linux Systems</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="85"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certifications -->
+                <div class="certifications-section">
+                    <h3 class="certifications-title">Certifications & Achievements</h3>
+                    <div class="certifications-grid">
+                        <div class="certification-item">
+                            <div class="cert-icon">🏆</div>
+                            <div class="cert-content">
+                                <h4>ISTQB Foundation Level</h4>
+                                <p>Software Testing Certification</p>
+                                <span class="cert-year">2024</span>
+                            </div>
+                        </div>
+                        <div class="certification-item">
+                            <div class="cert-icon">☁️</div>
+                            <div class="cert-content">
+                                <h4>Azure Fundamentals</h4>
+                                <p>Microsoft Cloud Platform</p>
+                                <span class="cert-year">2024</span>
+                            </div>
+                        </div>
+                        <div class="certification-item">
+                            <div class="cert-icon">🐍</div>
+                            <div class="cert-content">
+                                <h4>Python Institute PCAP</h4>
+                                <p>Certified Associate Programmer</p>
+                                <span class="cert-year">2023</span>
+                            </div>
+                        </div>
+                        <div class="certification-item">
+                            <div class="cert-icon">♿</div>
+                            <div class="cert-content">
+                                <h4>WCAG 2.1 Compliance</h4>
+                                <p>Web Accessibility Specialist</p>
+                                <span class="cert-year">2023</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Philosophy Section -->
+        <section class="philosophy-section">
+            <div class="container">
+                <div class="philosophy-content">
+                    <div class="philosophy-text">
+                        <h2>My Philosophy</h2>
+                        <div class="philosophy-quotes">
+                            <blockquote>
+                                "Technology is best when it brings people together and solves real problems. 
+                                Every line of code should serve a purpose, every algorithm should create value, 
+                                and every system should be built with accessibility and inclusivity at its core."
+                            </blockquote>
+                            <blockquote>
+                                "The intersection of AI and human creativity is where the most exciting innovations happen. 
+                                I believe in building intelligent systems that augment human capabilities rather than replace them."
+                            </blockquote>
+                        </div>
+                    </div>
+                    <div class="philosophy-visual">
+                        <div class="code-block">
+                            <div class="code-header">
+                                <div class="window-controls">
+                                    <span class="control red"></span>
+                                    <span class="control yellow"></span>
+                                    <span class="control green"></span>
+                                </div>
+                                <span class="file-name">life_philosophy.py</span>
+                            </div>
+                            <div class="code-content">
+                                <pre><code><span class="keyword">def</span> <span class="function">approach_to_coding</span>():
+    <span class="keyword">return</span> {
+        <span class="string">"creativity"</span>: <span class="string">"always"</span>,
+        <span class="string">"learning"</span>: <span class="string">"continuous"</span>,
+        <span class="string">"impact"</span>: <span class="string">"meaningful"</span>,
+        <span class="string">"accessibility"</span>: <span class="string">"priority"</span>,
+        <span class="string">"innovation"</span>: <span class="string">"driven"</span>
+    }
+
+<span class="keyword">def</span> <span class="function">build_future</span>():
+    <span class="keyword">while</span> <span class="boolean">True</span>:
+        learn_something_new()
+        create_with_purpose()
+        share_knowledge()
+        make_impact()</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact CTA Section -->
+        <section class="contact-cta-section">
+            <div class="container">
+                <div class="cta-content">
+                    <h2>Let's Build Something Amazing Together</h2>
+                    <p>Always open to discussing new opportunities, collaborations, and innovative projects.</p>
+                    <div class="cta-buttons">
+                        <a href="https://linkedin.com/in/vaibhav-patel" target="_blank" class="cta-button primary">
+                            <span class="button-icon">💼</span>
+                            <span>LinkedIn</span>
+                        </a>
+                        <a href="https://github.com/vaibhav-patel" target="_blank" class="cta-button secondary">
+                            <span class="button-icon">💻</span>
+                            <span>GitHub</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-text">
+                    <p>&copy; 2025 CodeArt.fun - Building the future, one line of code at a time.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="https://linkedin.com/in/vaibhav-patel" target="_blank" class="footer-link">LinkedIn</a>
+                    <a href="https://github.com/vaibhav-patel" target="_blank" class="footer-link">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/theme-toggle.js"></script>
+    <script src="assets/js/animations.js"></script>
+    <script src="assets/js/cursor-effects.js"></script>
+</body>
+</html>
