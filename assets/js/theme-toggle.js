@@ -141,6 +141,8 @@ class ThemeManager {
         });
         document.dispatchEvent(event);
     }
+
+    themeManager = new ThemeManager();
     getCurrentTheme() {
         return this.currentTheme;
     }

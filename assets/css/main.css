@@ -1502,9 +1502,17 @@ blockquote::before {
     }
     
     .project-card {
+        position: relative;
         height: auto;
     }
-    
+    .project-icon {
+        position: absolute;
+        top: var(--space-md);
+        right: var(--space-md);
+        font-size: 1.5rem;
+        opacity: 0.7;
+        z-index: 2;
+    }
     .project-card:hover .project-content {
         transform: none;
     }
