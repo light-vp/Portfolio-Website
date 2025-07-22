@@ -13,23 +13,24 @@
 /* ===== CSS CUSTOM PROPERTIES ===== */
 :root {
     /* Color Palette */
-    --coral: #480909;
-    --cream: #dffafb;
-    --mint: #963606;
-    --purple: #260101;
-    --sage: #e6ebe0;
+    --white-shade: #fafafa;
+    --light-gray: #a77777;
+    --medium-gray: #231414;
+    --slate-black: #1a1a1a;
+    --brown-shade: #8b4513;
+    --maroon-shade: #800020;
     
     /* Light Theme */
-    --bg-primary: var(--sage);
-    --bg-secondary: var(--cream);
+    --bg-primary: var(--white-shade);
+    --bg-secondary: var(--light-gray);
     --bg-tertiary: #ffffff;
-    --text-primary: var(--purple);
-    --text-secondary: #6b6b6b;
-    --text-muted: #8a8a8a;
-    --accent-primary: var(--coral);
-    --accent-secondary: var(--mint);
-    --border-light: #d1d5db;
-    --border-medium: #9ca3af;
+    --text-primary: var(--slate-black);
+    --text-secondary: #4a4a4a;
+    --text-muted: #6a6a6a;
+    --accent-primary: var(--maroon-shade);
+    --accent-secondary: var(--brown-shade);
+    --border-light: var(--medium-gray);
+    --border-medium: #b0b0b0;
     
     /* Shadows */
     --shadow-sm: 0 1px 3px rgba(93, 87, 107, 0.1), 0 1px 2px rgba(93, 87, 107, 0.06);
