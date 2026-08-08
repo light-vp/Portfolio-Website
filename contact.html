@@ -1,43 +1,169 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact - CodeArt.fun | Vaibhav Patel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contact — Vaibhav Patel</title>
+    <meta name="description" content="Get in touch with Vaibhav Patel about graduate roles, applied AI work, or collaboration — by email, LinkedIn or GitHub.">
+    <link rel="canonical" href="https://codeart.fun/contact.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Contact — Vaibhav Patel">
+    <meta property="og:description" content="Get in touch about roles, projects, or collaboration.">
+    <meta name="theme-color" content="#fcfcfd" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0b0b0e" media="(prefers-color-scheme: dark)">
+
+    <script>
+        (function () {
+            try {
+                var stored = localStorage.getItem('theme');
+                var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+            // Marks that JS is running; scroll-reveal styles are scoped to this
+            // class so the site still renders if the script never executes.
+            document.documentElement.classList.add('js');
+        })();
+    </script>
+
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+    <!-- Fonts are self-hosted; preload the two subsets actually used above the
+         fold so text does not swap after first paint. -->
+    <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-latin.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="assets/fonts/jetbrains-mono-latin.woff2" crossorigin>
+    <link rel="stylesheet" href="assets/css/fonts.css">
     <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/themes.css">
-    <link rel="stylesheet" href="assets/css/animations.css">
 </head>
 <body>
-    <!-- Same navigation as other pages -->
-    <nav class="navbar" id="navbar">
-        <!-- Copy navigation from index.html -->
-    </nav>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-    <main>
-        <section class="contact-hero">
+    <header class="header">
+        <div class="header-inner">
+            <a class="brand" href="index.html">
+                <span class="brand-mark">Vaibhav Patel</span><span class="brand-suffix">.</span>
+            </a>
+
+            <nav class="nav" aria-label="Primary">
+                <a class="nav-link" href="index.html">Work</a>
+                <a class="nav-link" href="about.html">About</a>
+                <a class="nav-link" href="contact.html" aria-current="page">Contact</a>
+            </nav>
+
+            <div class="header-actions">
+                <button class="icon-button theme-toggle" type="button" aria-label="Switch to dark theme">
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                </button>
+
+                <button class="icon-button menu-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mobile-nav">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="mobile-nav" id="mobile-nav" data-open="false">
+        <a href="index.html">Work</a>
+        <a href="about.html">About</a>
+        <a href="contact.html" aria-current="page">Contact</a>
+    </div>
+
+    <main id="main">
+        <section class="hero">
             <div class="container">
-                <h1 class="page-title">Get In Touch</h1>
-                <p class="page-subtitle">Let's connect and build something amazing together</p>
-                
-                <div class="contact-links">
-                    <a href="https://linkedin.com/in/vaibhav-patel-a27536197/" target="_blank" class="contact-card">
-                        <span class="contact-icon">💼</span>
-                        <h3>LinkedIn</h3>
-                        <p>Connect professionally</p>
+                <div class="hero-inner">
+                    <span class="eyebrow">Contact</span>
+                    <h1 class="hero-title">Let's talk.</h1>
+                    <p class="hero-lede">
+                        Email is the surest way to reach me and I read everything. Graduate roles,
+                        applied AI work, collaborations, or a question about one of the projects —
+                        all welcome.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-head" data-reveal>
+                    <span class="eyebrow">Channels</span>
+                    <h2 class="section-title">Where to find me</h2>
+                </div>
+
+                <div class="contact-grid" style="margin-top: 0;">
+                    <a class="contact-card" href="mailto:Vaibhav.patel.kumar@gmail.com" data-reveal>
+                        <span class="card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                        </span>
+                        <h3 class="card-title">
+                            Email
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+                        </h3>
+                        <p class="card-text">Best for anything substantive — I usually reply within a couple of days.</p>
+                        <p class="contact-handle">Vaibhav.patel.kumar@gmail.com</p>
                     </a>
-                    
-                    <a href="https://github.com/light-vp" target="_blank" class="contact-card">
-                        <span class="contact-icon">💻</span>
-                        <h3>GitHub</h3>
-                        <p>View my code</p>
+
+                    <a class="contact-card" href="https://www.linkedin.com/in/vaibhav-patel-a27536197/" target="_blank" rel="noopener noreferrer" data-reveal>
+                        <span class="card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.75-1.95 4 0 4.4 2.5 4.4 5.9V21h-4v-5.6c0-1.35-.03-3.1-1.9-3.1-1.9 0-2.2 1.47-2.2 3v5.7H9z"/></svg>
+                        </span>
+                        <h3 class="card-title">
+                            LinkedIn
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+                        </h3>
+                        <p class="card-text">Professional background, experience, and the easiest way to connect.</p>
+                        <p class="contact-handle">in/vaibhav-patel-a27536197</p>
                     </a>
+
+                    <a class="contact-card" href="https://github.com/light-vp" target="_blank" rel="noopener noreferrer" data-reveal>
+                        <span class="card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.36 1.09 2.94.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg>
+                        </span>
+                        <h3 class="card-title">
+                            GitHub
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+                        </h3>
+                        <p class="card-text">Source for the projects listed on the work page, plus everything else.</p>
+                        <p class="contact-handle">github.com/light-vp</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container container--narrow">
+                <div class="section-head" data-reveal>
+                    <span class="eyebrow">Details</span>
+                    <h2 class="section-title">Good to know</h2>
+                </div>
+
+                <div class="timeline-body" data-reveal>
+                    <ul>
+                        <li>Based in London, UK — open to hybrid and remote.</li>
+                        <li>Interested in applied AI, backend engineering, and developer tooling.</li>
+                        <li>Happy to share a CV on request.</li>
+                    </ul>
                 </div>
             </div>
         </section>
     </main>
 
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/theme-toggle.js"></script>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-inner">
+                <p class="footer-note">&copy; 2026 Vaibhav Patel</p>
+                <nav class="footer-links" aria-label="Elsewhere">
+                    <a href="https://www.linkedin.com/in/vaibhav-patel-a27536197/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                    <a href="https://github.com/light-vp" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="mailto:Vaibhav.patel.kumar@gmail.com">Email</a>
+                </nav>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js" defer></script>
 </body>
 </html>

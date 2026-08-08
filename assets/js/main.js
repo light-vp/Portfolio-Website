@@ -1,555 +1,202 @@
-// ===== MAIN JAVASCRIPT ===== //
+/**
+ * Site behaviour: theme toggle, mobile nav, sticky-header state,
+ * scroll reveal, and project filtering.
+ *
+ * The initial theme is applied by an inline script in <head> so the page
+ * never paints the wrong colours first. This file only handles the toggle.
+ */
+(function () {
+  "use strict";
 
-class CodeArtSite {
-    constructor() {
-        this.init();
+  var root = document.documentElement;
+  var prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  );
+
+  /* ---------- Theme ---------- */
+
+  function setTheme(theme) {
+    root.setAttribute("data-theme", theme);
+    try {
+      localStorage.setItem("theme", theme);
+    } catch (e) {
+      /* Storage can be unavailable in private mode; the toggle still works. */
     }
+    var toggle = document.querySelector(".theme-toggle");
+    if (toggle) {
+      toggle.setAttribute(
+        "aria-label",
+        theme === "dark" ? "Switch to light theme" : "Switch to dark theme"
+      );
+    }
+  }
 
-    init() {
-        // Wait for DOM to be fully loaded
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => {
-                this.setupEventListeners();
-                this.initializeComponents();
-            });
-        } else {
-            this.setupEventListeners();
-            this.initializeComponents();
+  var themeToggle = document.querySelector(".theme-toggle");
+  if (themeToggle) {
+    setTheme(root.getAttribute("data-theme") || "light");
+    themeToggle.addEventListener("click", function () {
+      setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+    });
+  }
+
+  /* Follow the OS only while the visitor has not chosen a theme themselves. */
+  var systemScheme = window.matchMedia("(prefers-color-scheme: dark)");
+  var onSchemeChange = function (event) {
+    var stored = null;
+    try {
+      stored = localStorage.getItem("theme");
+    } catch (e) {}
+    if (!stored) {
+      root.setAttribute("data-theme", event.matches ? "dark" : "light");
+    }
+  };
+  if (systemScheme.addEventListener) {
+    systemScheme.addEventListener("change", onSchemeChange);
+  }
+
+  /* ---------- Mobile nav ---------- */
+
+  var menuToggle = document.querySelector(".menu-toggle");
+  var mobileNav = document.getElementById("mobile-nav");
+
+  function closeMenu() {
+    if (!mobileNav || !menuToggle) return;
+    mobileNav.setAttribute("data-open", "false");
+    menuToggle.setAttribute("aria-expanded", "false");
+    document.body.style.removeProperty("overflow");
+  }
+
+  if (menuToggle && mobileNav) {
+    menuToggle.addEventListener("click", function () {
+      var open = mobileNav.getAttribute("data-open") === "true";
+      mobileNav.setAttribute("data-open", open ? "false" : "true");
+      menuToggle.setAttribute("aria-expanded", open ? "false" : "true");
+      document.body.style.overflow = open ? "" : "hidden";
+    });
+
+    mobileNav.addEventListener("click", function (event) {
+      if (event.target.closest("a")) closeMenu();
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") closeMenu();
+    });
+
+    /* Leaving the mobile breakpoint with the drawer open would otherwise
+       leave <body> scroll-locked on desktop. */
+    var wide = window.matchMedia("(min-width: 721px)");
+    if (wide.addEventListener) {
+      wide.addEventListener("change", function (event) {
+        if (event.matches) closeMenu();
+      });
+    }
+  }
+
+  /* ---------- Header shadow on scroll ---------- */
+
+  var header = document.querySelector(".header");
+  if (header) {
+    var ticking = false;
+    var updateHeader = function () {
+      header.setAttribute("data-scrolled", window.scrollY > 8 ? "true" : "false");
+      ticking = false;
+    };
+    updateHeader();
+    window.addEventListener(
+      "scroll",
+      function () {
+        if (!ticking) {
+          ticking = true;
+          window.requestAnimationFrame(updateHeader);
         }
+      },
+      { passive: true }
+    );
+  }
+
+  /* ---------- Reveal on scroll ---------- */
+
+  var revealTargets = document.querySelectorAll("[data-reveal]");
+  if (revealTargets.length) {
+    if (prefersReducedMotion.matches || !("IntersectionObserver" in window)) {
+      revealTargets.forEach(function (el) {
+        el.classList.add("is-visible");
+      });
+    } else {
+      var observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          });
+        },
+        { rootMargin: "0px 0px -8% 0px", threshold: 0.05 }
+      );
+      revealTargets.forEach(function (el, index) {
+        /* Small stagger so groups cascade instead of snapping in together. */
+        el.style.transitionDelay = Math.min(index % 6, 5) * 45 + "ms";
+        observer.observe(el);
+      });
+    }
+  }
+
+  /* ---------- Project filter + search ---------- */
+
+  var workList = document.getElementById("work-list");
+  if (workList) {
+    var items = Array.prototype.slice.call(
+      workList.querySelectorAll(".work-item")
+    );
+    var filterButtons = Array.prototype.slice.call(
+      document.querySelectorAll(".filter")
+    );
+    var searchInput = document.getElementById("work-search");
+    var emptyState = document.getElementById("work-empty");
+    var activeFilter = "all";
+
+    function applyFilters() {
+      var query = searchInput ? searchInput.value.trim().toLowerCase() : "";
+      var visible = 0;
+
+      items.forEach(function (item) {
+        var categories = (item.getAttribute("data-category") || "").split(/\s+/);
+        var matchesFilter =
+          activeFilter === "all" || categories.indexOf(activeFilter) !== -1;
+        var matchesQuery =
+          !query || item.textContent.toLowerCase().indexOf(query) !== -1;
+        var show = matchesFilter && matchesQuery;
+
+        item.hidden = !show;
+        if (show) visible++;
+      });
+
+      /* Renumber so the visible rows always read 01, 02, 03… */
+      var counter = 0;
+      items.forEach(function (item) {
+        if (item.hidden) return;
+        counter++;
+        var index = item.querySelector(".work-index");
+        if (index) index.textContent = String(counter).padStart(2, "0");
+      });
+
+      if (emptyState) emptyState.hidden = visible !== 0;
     }
 
-    setupEventListeners() {
-        // Navigation
-        this.setupNavigation();
-        
-        // Mobile menu
-        this.setupMobileMenu();
-        
-        // Smooth scrolling
-        this.setupSmoothScrolling();
-        
-        // Scroll effects
-        this.setupScrollEffects();
-        
-        // Project interactions
-        this.setupProjectInteractions();
-        
-        // Loading screen
-        this.setupLoadingScreen();
-    }
-
-    initializeComponents() {
-        // Typography animations
-        this.initTypingEffect();
-        
-        // Counter animations
-        this.initCounterAnimations();
-        
-        // Intersection observer for animations
-        this.initIntersectionObserver();
-        
-        // Timeline animations (if on about page)
-        this.initTimelineAnimations();
-        
-        // Skill bar animations
-        this.initSkillBarAnimations();
-    }
-
-    // ===== NAVIGATION ===== //
-    setupNavigation() {
-        const navbar = document.getElementById('navbar');
-        let lastScroll = 0;
-        let isScrolling = false;
-
-        window.addEventListener('scroll', () => {
-            if (!isScrolling) {
-                window.requestAnimationFrame(() => {
-                    const currentScroll = window.pageYOffset;
-                    
-                    // Add scrolled class for styling
-                    if (currentScroll > 50) {
-                        navbar?.classList.add('scrolled');
-                    } else {
-                        navbar?.classList.remove('scrolled');
-                    }
-                    
-                    // Update active nav link
-                    this.updateActiveNavLink();
-                    
-                    lastScroll = currentScroll;
-                    isScrolling = false;
-                });
-                
-                isScrolling = true;
-            }
+    filterButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        activeFilter = button.getAttribute("data-filter") || "all";
+        filterButtons.forEach(function (other) {
+          other.setAttribute("aria-pressed", String(other === button));
         });
+        applyFilters();
+      });
+    });
+
+    if (searchInput) {
+      searchInput.addEventListener("input", applyFilters);
     }
 
-    updateActiveNavLink() {
-        const sections = document.querySelectorAll('section[id]');
-        const navLinks = document.querySelectorAll('.nav-link');
-        
-        let currentSection = '';
-        
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop - 100;
-            const sectionHeight = section.offsetHeight;
-            
-            if (window.pageYOffset >= sectionTop && 
-                window.pageYOffset < sectionTop + sectionHeight) {
-                currentSection = section.getAttribute('id');
-            }
-        });
-
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${currentSection}`) {
-                link.classList.add('active');
-            }
-        });
-    }
-
-    // ===== MOBILE MENU ===== //
-    setupMobileMenu() {
-        const mobileToggle = document.getElementById('mobileToggle');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-        
-        if (!mobileToggle || !mobileMenu) return;
-
-        mobileToggle.addEventListener('click', () => {
-            mobileToggle.classList.toggle('active');
-            mobileMenu.classList.toggle('active');
-            document.body.classList.toggle('menu-open');
-        });
-
-        // Close menu when clicking nav links
-        mobileNavLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileToggle.classList.remove('active');
-                mobileMenu.classList.remove('active');
-                document.body.classList.remove('menu-open');
-            });
-        });
-
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!mobileMenu.contains(e.target) && 
-                !mobileToggle.contains(e.target) && 
-                mobileMenu.classList.contains('active')) {
-                mobileToggle.classList.remove('active');
-                mobileMenu.classList.remove('active');
-                document.body.classList.remove('menu-open');
-            }
-        });
-    }
-
-    // ===== SMOOTH SCROLLING ===== //
-    setupSmoothScrolling() {
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                const targetSection = document.querySelector(targetId);
-                
-                if (targetSection) {
-                    const offsetTop = targetSection.offsetTop - 80;
-                    
-                    window.scrollTo({
-                        top: offsetTop,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    }
-
-    // ===== SCROLL EFFECTS ===== //
-    setupScrollEffects() {
-        // Parallax effect for hero background
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallaxElements = document.querySelectorAll('.floating-shapes .shape');
-            
-            parallaxElements.forEach((element, index) => {
-                const speed = 0.1 + (index * 0.05);
-                const yPos = -(scrolled * speed);
-                element.style.transform = `translateY(${yPos}px) rotate(${scrolled * 0.05}deg)`;
-            });
-        });
-
-        // Fade in animation for elements
-        this.initFadeInOnScroll();
-    }
-
-    initFadeInOnScroll() {
-        const elements = document.querySelectorAll('.project-card, .timeline-card, .skill-category');
-        
-        elements.forEach(element => {
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(30px)';
-            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        });
-    }
-
-    // ===== PROJECT INTERACTIONS ===== //
-    setupProjectInteractions() {
-        // Project filtering
-        this.setupProjectFiltering();
-        
-        // Project search
-        this.setupProjectSearch();
-    }
-
-    setupProjectFiltering() {
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const projectCards = document.querySelectorAll('.project-card');
-        
-        if (!filterBtns.length) return;
-
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const filter = btn.getAttribute('data-filter');
-                
-                // Update active filter button
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                // Filter projects
-                projectCards.forEach(card => {
-                    const categories = card.getAttribute('data-category');
-                    
-                    if (filter === 'all' || categories.includes(filter)) {
-                        card.style.display = 'block';
-                        setTimeout(() => {
-                            card.style.opacity = '1';
-                            card.style.transform = 'translateY(0)';
-                        }, 100);
-                    } else {
-                        card.style.opacity = '0';
-                        card.style.transform = 'translateY(20px)';
-                        setTimeout(() => {
-                            card.style.display = 'none';
-                        }, 300);
-                    }
-                });
-            });
-        });
-    }
-
-    setupProjectSearch() {
-        const searchInput = document.getElementById('projectSearch');
-        const projectCards = document.querySelectorAll('.project-card');
-        
-        if (!searchInput) return;
-
-        searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            
-            projectCards.forEach(card => {
-                const title = card.querySelector('.project-title')?.textContent.toLowerCase() || '';
-                const description = card.querySelector('.project-description')?.textContent.toLowerCase() || '';
-                const tags = Array.from(card.querySelectorAll('.tag')).map(tag => tag.textContent.toLowerCase()).join(' ');
-                
-                const isVisible = title.includes(searchTerm) || 
-                                description.includes(searchTerm) || 
-                                tags.includes(searchTerm);
-                
-                if (isVisible) {
-                    card.style.display = 'block';
-                    setTimeout(() => {
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, 100);
-                } else {
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(20px)';
-                    setTimeout(() => {
-                        card.style.display = 'none';
-                    }, 300);
-                }
-            });
-        });
-    }
-
-    // ===== LOADING SCREEN ===== //
-    setupLoadingScreen() {
-        const loadingScreen = document.getElementById('loading');
-        
-        if (!loadingScreen) return;
-
-        // Simulate loading time
-        setTimeout(() => {
-            loadingScreen.classList.add('hidden');
-        }, 1500);
-
-        // Remove loading screen after transition
-        setTimeout(() => {
-            loadingScreen?.remove();
-        }, 2000);
-    }
-
-    // ===== TYPING EFFECT ===== //
-    initTypingEffect() {
-        const typingElement = document.getElementById('typingText');
-        
-        if (!typingElement) return;
-
-        const texts = [
-            'Creative Developer',
-            'AI Enthusiast',
-            'Problem Solver',
-            'Tech Innovator'
-        ];
-        
-        let currentIndex = 0;
-        let currentText = '';
-        let isDeleting = false;
-        
-        const typeWriter = () => {
-            const fullText = texts[currentIndex];
-            
-            if (isDeleting) {
-                currentText = fullText.substring(0, currentText.length - 1);
-            } else {
-                currentText = fullText.substring(0, currentText.length + 1);
-            }
-            
-            typingElement.textContent = currentText;
-            
-            let typeSpeed = isDeleting ? 50 : 100;
-            
-            if (!isDeleting && currentText === fullText) {
-                typeSpeed = 2000;
-                isDeleting = true;
-            } else if (isDeleting && currentText === '') {
-                isDeleting = false;
-                currentIndex = (currentIndex + 1) % texts.length;
-                typeSpeed = 500;
-            }
-            
-            setTimeout(typeWriter, typeSpeed);
-        };
-        
-        typeWriter();
-    }
-
-    // ===== COUNTER ANIMATIONS ===== //
-    initCounterAnimations() {
-        const counters = document.querySelectorAll('.stat-number[data-count]');
-        
-        const animateCounter = (counter) => {
-            const target = parseInt(counter.getAttribute('data-count'));
-            const duration = 2000;
-            const start = performance.now();
-            
-            const animate = (currentTime) => {
-                const elapsed = currentTime - start;
-                const progress = Math.min(elapsed / duration, 1);
-                
-                const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-                const current = Math.floor(easeOutQuart * target);
-                
-                counter.textContent = current;
-                
-                if (progress < 1) {
-                    requestAnimationFrame(animate);
-                }
-            };
-            
-            requestAnimationFrame(animate);
-        };
-        
-        // Start counter animations when elements are in view
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
-                    entry.target.classList.add('animated');
-                    animateCounter(entry.target);
-                }
-            });
-        });
-        
-        counters.forEach(counter => observer.observe(counter));
-    }
-
-    // ===== INTERSECTION OBSERVER ===== //
-    initIntersectionObserver() {
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        // Observe project cards and other elements
-        const elementsToObserve = document.querySelectorAll(
-            '.project-card, .skill-category, .certification-item, .philosophy-content'
-        );
-        
-        elementsToObserve.forEach(element => {
-            observer.observe(element);
-        });
-    }
-
-    // ===== TIMELINE ANIMATIONS (About Page) ===== //
-    initTimelineAnimations() {
-        const timelineItems = document.querySelectorAll('.timeline-item');
-        
-        if (!timelineItems.length) return;
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate');
-                }
-            });
-        }, {
-            threshold: 0.3
-        });
-
-        timelineItems.forEach((item, index) => {
-            item.style.animationDelay = `${index * 0.2}s`;
-            observer.observe(item);
-        });
-    }
-
-    // ===== SKILL BAR ANIMATIONS ===== //
-    initSkillBarAnimations() {
-        const skillBars = document.querySelectorAll('.skill-progress');
-        
-        if (!skillBars.length) return;
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const progressBar = entry.target;
-                    const targetWidth = progressBar.getAttribute('data-progress');
-                    
-                    setTimeout(() => {
-                        progressBar.style.width = `${targetWidth}%`;
-                    }, 500);
-                }
-            });
-        }, {
-            threshold: 0.5
-        });
-
-        skillBars.forEach(bar => observer.observe(bar));
-    }
-
-    // ===== UTILITY METHODS ===== //
-    
-    // Debounce function for performance optimization
-    debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func.apply(this, args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-
-    // Throttle function for scroll events
-    throttle(func, limit) {
-        let inThrottle;
-        return function() {
-            const args = arguments;
-            const context = this;
-            if (!inThrottle) {
-                func.apply(context, args);
-                inThrottle = true;
-                setTimeout(() => inThrottle = false, limit);
-            }
-        }
-    }
-
-    // Check if element is in viewport
-    isInViewport(element) {
-        const rect = element.getBoundingClientRect();
-        return (
-            rect.top >= 0 &&
-            rect.left >= 0 &&
-            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-        );
-    }
-
-    // Smooth scroll to element
-    scrollToElement(element, offset = 80) {
-        const elementPosition = element.offsetTop - offset;
-        
-        window.scrollTo({
-            top: elementPosition,
-            behavior: 'smooth'
-        });
-    }
-}
-
-// Initialize the site when DOM is ready
-new CodeArtSite();
-
-// ===== GLOBAL EVENT LISTENERS ===== //
-
-// Handle window resize
-window.addEventListener('resize', () => {
-    // Recalculate layouts if needed
-    const event = new CustomEvent('resize-complete');
-    setTimeout(() => {
-        window.dispatchEvent(event);
-    }, 250);
-});
-
-// Handle keyboard navigation
-document.addEventListener('keydown', (e) => {
-    // ESC key closes mobile menu
-    if (e.key === 'Escape') {
-        const mobileToggle = document.getElementById('mobileToggle');
-        const mobileMenu = document.getElementById('mobileMenu');
-        
-        if (mobileMenu?.classList.contains('active')) {
-            mobileToggle?.classList.remove('active');
-            mobileMenu.classList.remove('active');
-            document.body.classList.remove('menu-open');
-        }
-    }
-});
-
-// Handle focus management for accessibility
-document.addEventListener('focusin', (e) => {
-    // Add focus-visible class for keyboard navigation
-    if (e.target.matches('button, a, input, select, textarea, [tabindex]')) {
-        e.target.classList.add('focus-visible');
-    }
-});
-
-document.addEventListener('focusout', (e) => {
-    e.target.classList.remove('focus-visible');
-});
-
-// ===== PERFORMANCE MONITORING ===== //
-
-// Log performance metrics
-window.addEventListener('load', () => {
-    if ('performance' in window) {
-        const perfData = performance.getEntriesByType('navigation')[0];
-        console.log(`Page load time: ${perfData.loadEventEnd - perfData.fetchStart}ms`);
-        console.log(`DOM content loaded: ${perfData.domContentLoadedEventEnd - perfData.fetchStart}ms`);
-    }
-});
-
-// ===== EXPORT FOR MODULE USAGE ===== //
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = CodeArtSite;
-}
+    applyFilters();
+  }
+})();
